@@ -267,7 +267,7 @@ h6 { font-size: 16px;}
     background-color: var(--previewShadow);
 }
 
-.social-links{
+.social-links {
 	display: grid;
 	align-content: center;
 	text-align: center;
