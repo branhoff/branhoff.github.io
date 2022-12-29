@@ -17,7 +17,6 @@ for(var i = 0; themeDots.length > i; i++) {
         console.log("Option clicked:", mode)
         setTheme(mode)
     }) 
-
 }
 
 function setTheme(mode) {
@@ -35,6 +34,10 @@ function setTheme(mode) {
 
     if (mode == "purple") {
         document.getElementById("theme-style").href = "purple.css"
+    }
+
+    if (mode == "snes") {
+        document.getElementById("theme-style").href = "snes.css"
     }
 
     localStorage.setItem("theme", mode)

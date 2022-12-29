@@ -11,7 +11,6 @@
 	<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&family=Russo+One&display=swap" rel="stylesheet">
 
 	<link rel="stylesheet" type="text/css" href="default.css">
-
     <link id="theme-style" rel="stylesheet" type="text/css" href="">
 </head>
 <body>
@@ -38,7 +37,7 @@
 
 
                     <ul id="navigation">
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
 
                     </ul>
                 </div>
@@ -52,6 +51,7 @@
 						<div data-mode="blue" id="blue-mode" class="theme-dot"></div>
 						<div data-mode="green" id="green-mode" class="theme-dot"></div>
 						<div data-mode="purple" id="purple-mode" class="theme-dot"></div>
+                        <div data-mode="snes" id="snes-mode" class="theme-dot"></div>
 					</div>
 
                     <p id="settings-note">*Theme settings will be saved for<br>your next vist</p>
@@ -89,7 +89,7 @@
                     <hr>
 
                     <h4>Top Expertise</h4>
-                    <p>DevOps engineer with current primary focus on implementing a message bus system with Apache Pulsar, Kubernetes, and Terraform: <a target="_blank" href="resume.pdf">Download resume</a></p>
+                    <p>DevOps engineer with focusing on implementing a message bus system for microservices with Apache Pulsar, Kubernetes, and Terraform: <a target="_blank" href="resume.pdf">Download resume</a></p>
         
                     <div id="skills">
                         <ul>
@@ -137,7 +137,7 @@
                         <div class="post-preview">
                             <h6 class="post-title">Learn to program with Python (101)</h6>
                             <p class="post-intro">Explore my free, self-paced course to learn the basics of programming from a self-taught turned professional developer</p>
-                            <a href="#">Explore</a>
+                            <a target="_blank" href="https://github.com/branhoff/python_class_101">Explore</a>
                         </div>
                     </div>
                 </div>
@@ -148,7 +148,7 @@
                         <div class="post-preview">
                             <h6 class="post-title">Learn to program with Python (102)</h6>
                             <p class="post-intro">Further advance your self-taught programming to the next level with my 102 python programming course</p>
-                            <a href="#">Explore</a>
+                            <a target="_blank" href="https://github.com/branhoff/python_class_102">Explore</a>
                         </div>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                         <div class="post-preview">
                             <h6 class="post-title">Public blog implemented with Flask</h6>
                             <p class="post-intro">Check out a blog site I implemented in Flask</p>
-                            <a href="#">Explore</a>
+                            <a target="_blank" href="https://github.com/branhoff/flask-blog">Explore</a>
                         </div>
                     </div>
                 </div>
@@ -172,17 +172,19 @@
         <div class="main-container">
             <h3 style="text-align: center;">Get in touch</h3>
             <form id="contact-form">
+                <a name="contact"></a>
+
                 <label>Name</label>
-                <input class="input-field" type="text" name="name"></label>
+                <input class="input-field" type="text" name="name">
 
                 <label>Subject</label>
-                <input class="input-field" type="text" name="subject"></label>
+                <input class="input-field" type="text" name="subject">
 
                 <label>Email</label>
-                <input class="input-field" type="text" name="email"></label>
+                <input class="input-field" type="text" name="email">
 
                 <label>Message</label>
-                <textarea class="input-field" name="message"> </textarea>
+                <textarea class="input-field" name="message"></textarea>
 
                 <input id="submit-button" type="submit" value="Send">
             </form>
