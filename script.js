@@ -17,7 +17,6 @@ for(var i = 0; themeDots.length > i; i++) {
         console.log("Option clicked:", mode)
         setTheme(mode)
     }) 
-
 }
 
 function setTheme(mode) {
