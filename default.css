@@ -203,6 +203,11 @@ h6 { font-size: 16px;}
     background-color: #7E4C74;
 }
 
+#snes-mode {
+    background-color: #604baf;
+}
+
+
 #settings-note {
     font-size: 12px;
     font-style: italic;

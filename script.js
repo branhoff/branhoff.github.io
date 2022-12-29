@@ -37,5 +37,9 @@ function setTheme(mode) {
         document.getElementById("theme-style").href = "purple.css"
     }
 
+    if (mode == "snes") {
+        document.getElementById("theme-style").href = "snes.css"
+    }
+
     localStorage.setItem("theme", mode)
 }
