@@ -40,5 +40,9 @@ function setTheme(mode) {
         document.getElementById("theme-style").href = "snes.css"
     }
 
+    if (mode == "n64") {
+        document.getElementById("theme-style").href = "n64.css"
+    }
+
     localStorage.setItem("theme", mode)
 }
