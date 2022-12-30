@@ -12,6 +12,8 @@
 	--previewBg:rgb(209, 210, 212, 0.9);
 	--previewShadow:#604baf;
 
-
 	--buttonColor:#604baf;
+
+	--hyperlinkColor: #604baf;
+    --contactLinkColor: #604baf;
 }
