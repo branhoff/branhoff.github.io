@@ -5,14 +5,16 @@
 	--borderColor:#fbc709;
 
 	--mainText:#222326;
-	--secondaryText:##222326;
+	--secondaryText:#222326;
 
 	--themeDotBorder:#2a2a2b;
 
 	--previewBg:rgb(0, 143, 70, 0.8);
 	--previewShadow:#0054b7;
 
-
 	--buttonColor:#db0714;
+
+	--hyperlinkColor: #fbc709;
+    --contactLinkColor: #db0714;
 
 }

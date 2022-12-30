@@ -13,6 +13,9 @@
     --previewShadow: #f0ead6;
 
     --buttonColor: black;
+
+    --hyperlinkColor: #17a2b8;
+    --contactLinkColor: #17a2b8;
 }
 
 
@@ -38,7 +41,7 @@ p, li, span, label, input, textarea {
 
 a {
     text-decoration: none;
-    color:#17a2b8;
+    color:var(--hyperlinkColor);
 }
 
 ul {
@@ -104,7 +107,7 @@ h6 { font-size: 16px;}
 }
 
 #navigation a {
-    color: var(--mainText)
+    color: var(--contactLinkColor);
 }
 
 #navigation {
@@ -313,6 +316,10 @@ h6 { font-size: 16px;}
 
 }
 
+.post a {
+    color: #17a2b8;
+}
+
 .thumbnail {
     display: block;
     width: 100%;
@@ -350,7 +357,7 @@ h6 { font-size: 16px;}
     line-height: 2.7em;
 }
 
-#contact-form textarea{
+#contact-form textarea {
 	min-height: 100px;
 	font-size: 14px;
 }
