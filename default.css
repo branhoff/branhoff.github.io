@@ -195,16 +195,8 @@ h6 { font-size: 16px;}
     background-color: #fff;
 }
 
-#blue-mode {
-    background-color: #192734;
-}
-
-#green-mode {
-    background-color: #78866b; 
-}
-
-#purple-mode {
-    background-color: #7E4C74;
+#nes-mode {
+    background-color: #d9d9d9;
 }
 
 #snes-mode {
