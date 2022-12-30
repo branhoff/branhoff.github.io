@@ -1,0 +1,19 @@
+:root{
+	--mainColor:#d9d9d9;
+	--secondaryColor:#4d4d4d;
+
+	--borderColor:#e95752;
+
+	--mainText:#e95752;
+	--secondaryText:rgb(34,35,35);
+
+	--themeDotBorder:#d1d2d4;
+
+	--previewBg:rgb(217, 217, 217, 0.8);
+	--previewShadow:#e95752;
+
+	--buttonColor:#e95752;
+
+	--hyperlinkColor: #e95752;
+    --contactLinkColor: #4d4d4d;
+}
