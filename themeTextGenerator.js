@@ -1,10 +1,10 @@
 const dots = document.querySelectorAll('.theme-dot');
 const themeText = document.getElementById('theme-text');
 
-const currentTheme = localStorage.getItem('theme');
+var currentTheme = localStorage.getItem('theme');
 
 // Find the current theme dot
-const currentThemeDot = Array.from(dots).find(dot => dot.getAttribute('data-mode') === currentTheme);
+var currentThemeDot = Array.from(dots).find(dot => dot.getAttribute('data-mode') === currentTheme);
 
 if (currentThemeDot) {
   // Set the text of the theme text element to the current theme text
@@ -19,8 +19,8 @@ dots.forEach(dot => {
     
     dot.addEventListener('mouseleave', () => {
         // Only reset the text if it is not already the text of the hovered dot
-        if (themeText.innerHTML !== dot.getAttribute('data-text')) {
-          themeText.innerHTML = currentThemeDot.getAttribute('data-text');
-        }
+        currentTheme = localStorage.getItem('theme');
+        currentThemeDot = Array.from(dots).find(dot => dot.getAttribute('data-mode') === currentTheme);
+        themeText.innerHTML = currentThemeDot.getAttribute('data-text');
     });
 });
