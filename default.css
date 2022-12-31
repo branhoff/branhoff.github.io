@@ -34,7 +34,7 @@ h1, h2, h3, h4, h5, h6, strong {
     font-weight: 500;
 }
 
-p, li, span, label, input, textarea {
+p, li, span, label, input, textarea, div {
     color: var(--secondaryText);
     font-family: 'Roboto Mono', monospace;
 }
@@ -169,26 +169,33 @@ h6 { font-size: 16px;}
 #theme-options-wrapper {
     display: flex;
     justify-content: center;
+    position: relative;
 }
-
+  
 .theme-dot {
     height: 30px;
     width: 30px;
     background-color: black;
     border-radius: 50%;
-
+  
     margin: 5px;
     border: 2px solid var(--themeDotBorder);
-
+  
     -webkit-box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
     -moz-box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
     box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
-
+  
     cursor: pointer;
 }
 
 .theme-dot:hover {
     border-width: 5px;
+}
+
+#theme-text {
+    display: flex;
+    justify-content: center;
+    position: relative;
 }
 
 #light-mode {
@@ -206,7 +213,6 @@ h6 { font-size: 16px;}
 #n64-mode {
     background-color: #db0714;
 }
-
 
 #settings-note {
     font-size: 12px;

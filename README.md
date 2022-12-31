@@ -27,13 +27,14 @@ Now in our `theme-options-wrapper` div, let's add new `theme-dot` reference we c
 
 ```html
 <div id="theme-options-wrapper">
-	<div data-mode="light" id="light-mode" class="theme-dot"></div>
-    <div data-mode="nes" id="nes-mode" class="theme-dot"></div>
-    <div data-mode="snes" id="snes-mode" class="theme-dot"></div>
-    <div data-mode="new_theme" id="new_theme-mode" class="theme-dot"></div>
+	<div data-mode="light" data-text="Default" id="light-mode" class="theme-dot"></div>
+    <div data-mode="nes" data-text="NES" id="nes-mode" class="theme-dot"></div>
+    <div data-mode="snes" data-text="SNES" id="snes-mode" class="theme-dot"></div>
+    <div data-mode="new_theme" data-text="New theme" id="new_theme-mode" class="theme-dot"></div>
 ```
+*Our `data-mode` and `data-text` parameters are used by the `script.js` and `themeTextGenerator.js` to set the theme and displayed theme text name respectively.
 
-Then in our `default.css` let's add an implementation fo what the `new_theme-mode` color should be:
+Then in our `default.css` let's add an implementation for what the `new_theme-mode` color should be:
 
 ```css
 #light-mode {
@@ -88,3 +89,5 @@ function setTheme(mode) {
 - Add variable for theme buttons border color
 - Add appropriate thumbnails or project page
 - Add Find me on background picture
+- Consider combining the data-mode and data-text attributes into one to simplify script and themeTextGenerator codebase
+- Consider refactoring script.js to have fewer conditionals and simplify structure

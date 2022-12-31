@@ -47,11 +47,12 @@
 					<h5 style="text-align: center;line-height: 0;">Personalize Theme</h5>
 
 					<div id="theme-options-wrapper">
-						<div data-mode="light" id="light-mode" class="theme-dot"></div>
-                        <div data-mode="nes" id="nes-mode" class="theme-dot"></div>
-                        <div data-mode="snes" id="snes-mode" class="theme-dot"></div>
-                        <div data-mode="n64" id="n64-mode" class="theme-dot"></div>
+						<div data-mode="light" data-text="Default" id="light-mode" class="theme-dot"></div>
+                        <div data-mode="nes" data-text="NES" id="nes-mode" class="theme-dot"></div>
+                        <div data-mode="snes" data-text="SNES" id="snes-mode" class="theme-dot"></div>
+                        <div data-mode="n64" data-text="N64" id="n64-mode" class="theme-dot"></div>
 					</div>
+                    <div id="theme-text"></div>
 
                     <p id="settings-note">*Theme settings will be saved for<br>your next vist</p>
                 </div>
@@ -80,13 +81,13 @@
                 <div class="about-me">
                     <h4>More about me</h4>
 
-                    <p>I'm a huge Nintendo fan based in Seattle. In my spare time, I also love to mentor others from non-traditional backgrounds to learn programming.</p>
+                    <p>I'm a huge Nintendo fan based in Seattle. In my spare time, I also love to mentor those from non-traditional backgrounds to learn programming.</p>
                     
                     <p>I'm working towards my masters in Computer Science part time while working full time automating infrastructure, building and maintaining CI/CD pipelines, and optimizing deployment processes. </p>
 
                     <p>While originally starting my career in finance, I learned through automating tedious tasks in python how much I loved improving processes programtically.</p> 
                     
-                    <p>As a predominately self-taught programmer, it has been a long road to transition to currently being a SEII with more than 3 years of professional engineering experience.
+                    <p>As a predominately self-taught programmer, it has been a long road to transition to being an SEII with more than 3 years of professional engineering experience.
                     <hr>
 
                     <h4>Top Expertise</h4>
@@ -195,5 +196,6 @@
     </section>
 
     <script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="themeTextGenerator.js"></script>
 </body>
 </html>
