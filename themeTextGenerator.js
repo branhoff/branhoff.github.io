@@ -1,7 +1,7 @@
 const dots = document.querySelectorAll('.theme-dot');
 const themeText = document.getElementById('theme-text');
 
-const currentTheme = localStorage.getItem('currentTheme');
+const currentTheme = localStorage.getItem('theme');
 
 // Find the current theme dot
 const currentThemeDot = Array.from(dots).find(dot => dot.getAttribute('data-mode') === currentTheme);
