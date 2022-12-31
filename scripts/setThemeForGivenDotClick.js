@@ -21,19 +21,19 @@ for(var i = 0; themeDots.length > i; i++) {
 
 function setTheme(mode) {
     if (mode == "light") {
-        document.getElementById("theme-style").href = "default.css"
+        document.getElementById("theme-style").href = "themes/default.css"
     }
 
     if (mode == "nes") {
-        document.getElementById("theme-style").href = "nes.css"
+        document.getElementById("theme-style").href = "themes/nes.css"
     }
 
     if (mode == "snes") {
-        document.getElementById("theme-style").href = "snes.css"
+        document.getElementById("theme-style").href = "themes/snes.css"
     }
 
     if (mode == "n64") {
-        document.getElementById("theme-style").href = "n64.css"
+        document.getElementById("theme-style").href = "themes/n64.css"
     }
 
     localStorage.setItem("theme", mode)
