@@ -4,13 +4,19 @@
 
 	--borderColor:#e95752;
 
-	--mainText:#e95752;
-	--secondaryText:rgb(34,35,35);
+	--mainHeaderText: #e95752;
+    --secondaryHeaderText:#e95752;
 
-	--themeDotBorder:#d1d2d4;
+    --mainBodyText:#d9d9d9;
+    --secondaryBodyText:#e95752;
+
+	--themeDotBorder:#e95752;
 
 	--previewBg:rgb(217, 217, 217, 0.8);
-	--previewShadow:#e95752;
+	--previewText: #4d4d4d;
+	--previewShadow: #e95752;
+
+	--skillsList: #4d4d4d;
 
 	--buttonColor:#e95752;
 

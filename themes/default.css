@@ -4,13 +4,19 @@
 
     --borderColor:#c1c1c1;
 
-    --mainText:black;
-    --secondaryText:#4b5156;
+    --mainHeaderText:black;
+    --secondaryHeaderText: black;
+
+    --mainBodyText:black;
+    --secondaryBodyText:black;
 
     --themeDotBorder: #24292e;
 
     --previewBg:rgb(251, 249, 243, 0.8);
+    --previewText: black;
     --previewShadow: #f0ead6;
+
+    --skillsList: black;
 
     --buttonColor: black;
 
@@ -29,13 +35,13 @@ body * {
 }
 
 h1, h2, h3, h4, h5, h6, strong {
-    color: var(--mainText);
+    color: var(--mainHeaderText);
     font-family: 'Russo One', sans-serif;
     font-weight: 500;
 }
 
 p, li, span, label, input, textarea, div {
-    color: var(--secondaryText);
+    color: var(--mainBodyText);
     font-family: 'Roboto Mono', monospace;
 }
 
@@ -245,6 +251,11 @@ h6 { font-size: 16px;}
     position: relative;
 }
 
+#preview p {
+    color: var(--previewText);
+    font-family: 'Roboto Mono', monospace;
+}
+
 .corner {
     width: 7px;
     height: 7px;
@@ -282,10 +293,25 @@ h6 { font-size: 16px;}
 	gap:100px;
 }
 
+.about-wrapper h1, h2, h3, h4, h5, h6, strong {
+    color: var(--mainHeaderText);
+    font-family: 'Russo One', sans-serif;
+    font-weight: 500;
+}
+
+.about-wrapper p {
+    color: var(--mainBodyText);
+    font-family: 'Roboto Mono', monospace;
+}
+
 #skills {
     display: flex;
     justify-content: space-evenly;
     background-color: var(--previewShadow);
+}
+
+#skills li {
+    color: var(--skillsList);
 }
 
 .social-links {
@@ -336,7 +362,7 @@ h6 { font-size: 16px;}
 }
 
 .post-intro {
-    color: #4b5156;
+    color: black;
     font-size: 14px; 
 }
 
@@ -351,7 +377,13 @@ h6 { font-size: 16px;}
     margin-bottom: 50px;
 }
 
+#contact-form input {
+    color: #fff;
+    font-family: 'Roboto Mono', monospace;
+}
+
 #contact-form label {
+    color: var(--secondaryBodyText);
     line-height: 2.7em;
 }
 
