@@ -12,6 +12,9 @@
 
 	--themeDotBorder:black;
 
+	/* #604baf */
+	--iconColor: invert(33%) sepia(21%) saturate(1653%) hue-rotate(212deg) brightness(97%) contrast(100%);
+
 	--previewBg:rgb(209, 210, 212, 0.9);
 	--previewText: black;
 	--previewShadow:#604baf;
