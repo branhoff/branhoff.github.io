@@ -5,6 +5,7 @@ cssmatic.com/box-shadow
 css-tricks.com/snippets/css/a-guide-to-flexbox  
 https://www.ginifab.com/feeds/pms/color_picker_from_image.php
 https://codepen.io/sosuke/pen/Pjoqqp  
+https://thenounproject.com/browse/collection-icon/video-games-10232/?p=1  
 
 ## Steps to add new theme color
 Create a theme color css file in the `themes` directory. See an existing example like `snes.css`. As an example let's call our new theme `new_theme.css`.
@@ -16,7 +17,7 @@ For testing purposes, let's add the html command `<link id="theme-style" rel="st
 ```html
 ...
     <script type="text/javascript" src="scripts/setThemeForGivenDotClick.js"></script>
-    <script type="text/javascript" src="scripts/themeTextGenerator.js"></script>
+    <script type="text/javascript" src="scripts/setHoverOnDotEffects.js"></script>
     <link id="theme-style" rel="stylesheet" type="text/css" href="themes/new_theme.css">
 </body>
 </html>
@@ -31,12 +32,12 @@ Now in our `theme-options-wrapper` div, let's add a new `theme-dot` reference th
 
 ```html
 <div id="theme-options-wrapper">
-	<div data-mode="light" data-text="Default" id="light-mode" class="theme-dot"></div>
-    <div data-mode="nes" data-text="NES" id="nes-mode" class="theme-dot"></div>
-    <div data-mode="snes" data-text="SNES" id="snes-mode" class="theme-dot"></div>
-    <div data-mode="new_theme" data-text="New theme" id="new_theme-mode" class="theme-dot"></div>
+	<div data-mode="light" data-text="Default" data-icon="images/Switch_icon.svg" id="light-mode" class="theme-dot"></div>
+    <div data-mode="nes" data-text="NES" data-icon="images/NES_icon.svg" id="nes-mode" class="theme-dot"></div>
+    <div data-mode="snes" data-text="SNES" data-icon="images/SNES_icon.svg" id="snes-mode" class="theme-dot"></div>
+    <div data-mode="new_theme" data-text="New theme" data-icon="images/NewTheme_icon.svg" id="new_theme-mode" class="theme-dot"></div>
 ```
-*Our `data-mode` and `data-text` parameters are used by the `setThemeForGivenDotClick.js` and `themeTextGenerator.js` in our scripts directory to set the theme and displayed theme text name respectively.
+*Our `data-mode`, `data-text`, and `data-icon` parameters are used by the `setThemeForGivenDotClick.js` and `setHoverOnDotEffects.js` in our scripts directory to set the theme and displayed theme text and icon name respectively.
 
 Then in our `themes/default.css` let's add an implementation for what the `new_theme-mode` color should be:
 
@@ -58,7 +59,7 @@ Then in our `themes/default.css` let's add an implementation for what the `new_t
 }
 ```
 
-At this point we should see that this new button under the "Personalize theme" heading has been added, but it won't change anything when selected. To do that, we need to update the `script.js`.
+At this point we should see that this new button under the "Personalize theme" heading has been added, but it won't change anything when selected. To do that, we need to update the `setThemeForGivenDotClick.js`.
 
 Let's add a conditional to the `setThemeForGivenDotClick` for our `new_theme` to be initialized when the corresponding button is selected:
 
@@ -70,14 +71,17 @@ function setTheme(mode) {
 
     if (mode == "nes") {
         document.getElementById("theme-style").href = "themes/nes.css"
+        document.getElementById("theme-icon").src = "images/NES_icon.svg"
     }
 
     if (mode == "snes") {
         document.getElementById("theme-style").href = "themes/snes.css"
+        document.getElementById("theme-icon").src = "images/SNES_icon.svg"
     }
 
     if (mode == "new_theme") {
         document.getElementById("theme-style").href = "themes/new_theme.css"
+        document.getElementById("theme-icon").src = "images/NewTheme_icon.svg"
     }
 
     localStorage.setItem("theme", mode)
@@ -85,13 +89,7 @@ function setTheme(mode) {
 ```
 
 ## TODO
-- Update variable references so that text displayed on different color backgrounds can be changed appropriately
-- Add variables for controlling headers and regular text colors
 - Update color on dividing line between More about me and Top Expertise
-- Change Top Expertise title to Top expertise
-- Change Personalize Theme to Personalize theme
-- Add variable for theme buttons border color
-- Add appropriate thumbnails or project page
 - Add Find me on background picture
-- Consider combining the data-mode and data-text attributes into one to simplify `setThemeForGivenDotClick` and `themeTextGenerator` modules
+- Consider combining the data-mode and data-text attributes into one to simplify `setThemeForGivenDotClick` and `setHoverOnDotEffects` modules
 - Consider refactoring `setThemeForGivenDotClick.js` to have fewer conditionals and simplify structure
