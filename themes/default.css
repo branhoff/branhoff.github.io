@@ -12,6 +12,9 @@
 
     --themeDotBorder: #24292e;
 
+    /* black */
+    --iconColor: invert(0%) sepia(0%) saturate(1%) hue-rotate(211deg) brightness(101%) contrast(100%);
+
     --previewBg:rgb(251, 249, 243, 0.8);
     --previewText: black;
     --previewShadow: #f0ead6;
@@ -202,6 +205,17 @@ h6 { font-size: 16px;}
     display: flex;
     justify-content: center;
     position: relative;
+}
+
+#theme-icon {
+    filter: var(--iconColor);
+    display: block;
+    margin:0 auto;
+
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+    
 }
 
 #light-mode {

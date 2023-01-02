@@ -4,9 +4,12 @@ fonts.google.com
 cssmatic.com/box-shadow  
 css-tricks.com/snippets/css/a-guide-to-flexbox  
 https://www.ginifab.com/feeds/pms/color_picker_from_image.php
+https://codepen.io/sosuke/pen/Pjoqqp  
 
 ## Steps to add new theme color
 Create a theme color css file in the `themes` directory. See an existing example like `snes.css`. As an example let's call our new theme `new_theme.css`.
+
+Note that in order to set a new icon color for the theme you need set the filter attribute for the img tag id `theme-icon`. To get a hex equivalent filter attribute utilize the website https://codepen.io/sosuke/pen/Pjoqqp
 
 For testing purposes, let's add the html command `<link id="theme-style" rel="stylesheet" type="text/css" href="new_theme.css">` below our java script call so we can see our theme color choices without having to make additional changes to the code base.
 
