@@ -1,5 +1,6 @@
 const dots = document.querySelectorAll('.theme-dot');
 const themeText = document.getElementById('theme-text');
+const themeIcon = document.getElementById('theme-icon');
 
 var currentTheme = localStorage.getItem('theme');
 
@@ -15,6 +16,8 @@ dots.forEach(dot => {
     dot.addEventListener('mouseenter', () => {
         const text = dot.getAttribute('data-text');
         themeText.innerHTML = text;
+        const icon = dot.getAttribute('data-icon');
+        themeIcon.src = icon;
     });
     
     dot.addEventListener('mouseleave', () => {
@@ -22,5 +25,6 @@ dots.forEach(dot => {
         currentTheme = localStorage.getItem('theme');
         currentThemeDot = Array.from(dots).find(dot => dot.getAttribute('data-mode') === currentTheme);
         themeText.innerHTML = currentThemeDot.getAttribute('data-text');
+        themeIcon.src = currentThemeDot.getAttribute('data-icon');
     });
 });
