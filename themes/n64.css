@@ -1,28 +1,62 @@
-:root{
-	--mainColor:#a7a8ac;
-	--secondaryColor:#606163;
+:root {
+	/* Main Theme Colors */
+    --mainColor: #a7a8ac;
+    --secondaryColor: #606163;
+    --borderColor: #fbc709;
 
-	--borderColor:#fbc709;
+	/* Text Colors */
+    --mainHeaderText: #222326;
+    --secondaryHeaderText: #222326;
+    --mainBodyText: #fff;
+    --secondaryBodyText: #222326;
 
-	--mainHeaderText: #222326;
-    --secondaryHeaderText:#222326;
+	/* Theme Elements */
+    --themeDotBorder: #2a2a2b;
+    /* db0714 */
+    --iconColor: invert(9%) sepia(77%) saturate(7493%) hue-rotate(346deg) brightness(103%) contrast(107%);
 
-    --mainBodyText:#fff;
-    --secondaryBodyText:#222326;
+	/* Preview/Skills Section */
+    --previewBg: rgb(0, 143, 70, 0.8);
+    --previewText: #fff;
+    --previewShadow: #0054b7;
+    --skillsList: #fff;
 
-	--themeDotBorder:#2a2a2b;
-
-	/* db0714 */
-	--iconColor: invert(9%) sepia(77%) saturate(7493%) hue-rotate(346deg) brightness(103%) contrast(107%);;
-
-	--previewBg:rgb(0, 143, 70, 0.8);
-	--previewText: #fff;
-	--previewShadow:#0054b7;
-
-	--skillsList: #fff;
-
-	--buttonColor:#db0714;
-
-	--hyperlinkColor: #fbc709;
+    /* Interactive Elements */
+    --buttonColor: #db0714;
+    --hyperlinkColor: #fbc709;
     --contactLinkColor: #db0714;
+
+	/* Project Cards */
+	--projectCardBg: #707172;
+	--projectCardText: #ffffff;
+	--projectCardBorder: #fbc709;
+
+	/* Blog Listing Page */
+	--blogListingCardBg: #707172;
+	--blogListingCardText: #ffffff;
+	--blogListingCardBorder: #fbc709;
+	--blogListingCardMeta: #cccccc;
+	--blogListingCardAccent: #fbc709;
+
+	/* Blog Sidebar */
+	--blogSidebarBg: #8a8b8c;
+	--blogSidebarText: #ffffff;
+	--blogSidebarHeader: #fbc709;
+	--blogSidebarTagBg: #fbc709;
+	--blogSidebarTagText: #2a2a2b;
+
+	/* Individual Blog Post Page */
+	--blogPostBg: #707172;
+	--blogPostText: #ffffff;
+	--blogPostBorder: #fbc709;
+	--blogPostHeaderText: #fbc709;
+	--blogPostMeta: #cccccc;
+	--blogPostAccent: #fbc709;
+
+	/* Homepage Blog Preview Cards */
+	--blogPreviewCardBg: #707172;
+	--blogPreviewCardText: #ffffff;
+	--blogPreviewCardBorder: #fbc709;
+	--blogPreviewCardMeta: #cccccc;
+	--blogPreviewCardAccent: #fbc709;
 }

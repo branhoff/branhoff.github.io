@@ -1,0 +1,84 @@
+FROM dev-base:latest
+
+USER root
+
+RUN apt-get update && apt-get install -y \
+    nodejs \
+    npm \
+    git \
+    vim \
+    nano \
+    curl \
+    wget \
+    tree \
+    jq \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install web development tools globally
+RUN npm install -g \
+    http-server \
+    live-server \
+    prettier
+
+# Create entrypoint script that starts web server and keeps container running
+RUN echo '#!/bin/bash' > /usr/local/bin/entrypoint.sh && \
+    echo 'echo "=== Web Development Container ==="' >> /usr/local/bin/entrypoint.sh && \
+    echo 'echo "Starting Node.js HTTP server on port 8000..."' >> /usr/local/bin/entrypoint.sh && \
+    echo 'echo "Access your site at: http://localhost:8000"' >> /usr/local/bin/entrypoint.sh && \
+    echo 'echo "To exec into container: docker exec -it <container_name> /bin/zsh"' >> /usr/local/bin/entrypoint.sh && \
+    echo 'echo "========================================"' >> /usr/local/bin/entrypoint.sh && \
+    echo '' >> /usr/local/bin/entrypoint.sh && \
+    echo '# Start web server in background' >> /usr/local/bin/entrypoint.sh && \
+    echo 'cd /home/devuser/workspace' >> /usr/local/bin/entrypoint.sh && \
+    echo 'http-server -p 8000 --host 0.0.0.0 &' >> /usr/local/bin/entrypoint.sh && \
+    echo 'SERVER_PID=$!' >> /usr/local/bin/entrypoint.sh && \
+    echo '' >> /usr/local/bin/entrypoint.sh && \
+    echo '# Handle shutdown gracefully' >> /usr/local/bin/entrypoint.sh && \
+    echo 'cleanup() {' >> /usr/local/bin/entrypoint.sh && \
+    echo '    echo "Shutting down web server..."' >> /usr/local/bin/entrypoint.sh && \
+    echo '    kill $SERVER_PID 2>/dev/null || true' >> /usr/local/bin/entrypoint.sh && \
+    echo '    exit 0' >> /usr/local/bin/entrypoint.sh && \
+    echo '}' >> /usr/local/bin/entrypoint.sh && \
+    echo 'trap cleanup SIGINT SIGTERM' >> /usr/local/bin/entrypoint.sh && \
+    echo '' >> /usr/local/bin/entrypoint.sh && \
+    echo '# Keep container running' >> /usr/local/bin/entrypoint.sh && \
+    echo 'exec "$@"' >> /usr/local/bin/entrypoint.sh && \
+    chmod +x /usr/local/bin/entrypoint.sh
+
+# Create a helper script for common development tasks
+RUN echo '#!/bin/bash' > /usr/local/bin/webdev && \
+    echo 'case "$1" in' >> /usr/local/bin/webdev && \
+    echo '  "serve")' >> /usr/local/bin/webdev && \
+    echo '    echo "Starting http-server on port 8000..."' >> /usr/local/bin/webdev && \
+    echo '    http-server -p 8000 --host 0.0.0.0' >> /usr/local/bin/webdev && \
+    echo '    ;;' >> /usr/local/bin/webdev && \
+    echo '  "live")' >> /usr/local/bin/webdev && \
+    echo '    echo "Starting live-server with auto-reload..."' >> /usr/local/bin/webdev && \
+    echo '    live-server --port=8080 --host=0.0.0.0' >> /usr/local/bin/webdev && \
+    echo '    ;;' >> /usr/local/bin/webdev && \
+    echo '  "format")' >> /usr/local/bin/webdev && \
+    echo '    echo "Formatting HTML, CSS, and JS files..."' >> /usr/local/bin/webdev && \
+    echo '    prettier --write "**/*.{html,css,js,json}"' >> /usr/local/bin/webdev && \
+    echo '    ;;' >> /usr/local/bin/webdev && \
+    echo '  "validate")' >> /usr/local/bin/webdev && \
+    echo '    echo "Validating JSON files..."' >> /usr/local/bin/webdev && \
+    echo '    find . -name "*.json" -exec jq . {} \;' >> /usr/local/bin/webdev && \
+    echo '    ;;' >> /usr/local/bin/webdev && \
+    echo '  *)' >> /usr/local/bin/webdev && \
+    echo '    echo "Usage: webdev {serve|live|format|validate}"' >> /usr/local/bin/webdev && \
+    echo '    echo "  serve    - Start http-server on port 8000"' >> /usr/local/bin/webdev && \
+    echo '    echo "  live     - Start live-server with auto-reload on port 8080"' >> /usr/local/bin/webdev && \
+    echo '    echo "  format   - Format HTML/CSS/JS files with Prettier"' >> /usr/local/bin/webdev && \
+    echo '    echo "  validate - Validate JSON files"' >> /usr/local/bin/webdev && \
+    echo '    ;;' >> /usr/local/bin/webdev && \
+    echo 'esac' >> /usr/local/bin/webdev && \
+    chmod +x /usr/local/bin/webdev
+
+USER devuser
+WORKDIR /home/devuser/workspace
+
+# Expose ports for web servers
+EXPOSE 8000 8080
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["tail", "-f", "/dev/null"]

@@ -1,28 +1,62 @@
 :root{
+	/* Main Theme Colors */
 	--mainColor:rgb(209,210,210);
 	--secondaryColor:#bcbae5;
-
 	--borderColor:#604baf;
 
+	/* Text Colors */
 	--mainHeaderText:black;
     --secondaryHeaderText:#4b5156;
-
     --mainBodyText:black;
     --secondaryBodyText:#604baf;
 
+	/* Theme Elements */
 	--themeDotBorder:black;
-
 	/* #604baf */
 	--iconColor: invert(33%) sepia(21%) saturate(1653%) hue-rotate(212deg) brightness(97%) contrast(100%);
 
+	/* Preview/Skills Section */
 	--previewBg:rgb(209, 210, 212, 0.9);
 	--previewText: black;
 	--previewShadow:#604baf;
-
 	--skillsList: #fff;
 
+	/* Interactive Elements */
 	--buttonColor:#604baf;
-
 	--hyperlinkColor: #604baf;
     --contactLinkColor: #604baf;
+
+	/* Project Cards */
+	--projectCardBg: #f5f3ff;
+	--projectCardText: #2d2d2d;
+	--projectCardBorder: #604baf;
+
+	/* Blog Listing Page */
+	--blogListingCardBg: #f5f3ff;
+	--blogListingCardText: #2d2d2d;
+	--blogListingCardBorder: #604baf;
+	--blogListingCardMeta: #666666;
+	--blogListingCardAccent: #604baf;
+
+	/* Blog Sidebar */
+	--blogSidebarBg: #f8f6ff;
+	--blogSidebarText: #2d2d2d;
+	--blogSidebarHeader: #604baf;
+	--blogSidebarTagBg: #604baf;
+	--blogSidebarTagText: #ffffff;
+
+	/* Individual Blog Post Page */
+	--blogPostBg: #fefeff;
+	--blogPostText: #2d2d2d;
+	--blogPostBorder: #604baf;
+	--blogPostHeaderText: #604baf;
+	--blogPostMeta: #666666;
+	--blogPostAccent: #604baf;
+
+	/* Homepage Blog Preview Cards */
+	--blogPreviewCardBg: #f5f3ff;
+	--blogPreviewCardText: #2d2d2d;
+	--blogPreviewCardBorder: #604baf;
+	--blogPreviewCardMeta: #666666;
+	--blogPreviewCardAccent: #604baf;
 }
