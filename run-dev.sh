@@ -7,7 +7,10 @@ docker rm branhoff-web-dev 2>/dev/null || true
 
 # Build the development image
 echo "Building web development container..."
-docker build -f Dockerfile.dev -t web-dev:latest .
+if ! docker build -f Dockerfile.dev -t web-dev:latest .; then
+    echo "Build failed! Exiting..." >&2
+    exit 1
+fi
 
 # Debug: Show what we're mounting
 echo "================================================================"
@@ -31,12 +34,15 @@ echo "  webdev format  # Format your code"
 echo "================================================================"
 
 # Run container with volume mounting
-docker run -d \
+if ! docker run -d \
   --name branhoff-web-dev \
   -p 8000:8000 \
   -p 8080:8080 \
   -v "$(pwd):/home/devuser/workspace" \
-  web-dev:latest
+  web-dev:latest; then
+    echo "Failed to start container! Exiting..." >&2
+    exit 1
+fi
 
 echo "Container started! Basic server running on port 8000."
 echo ""
