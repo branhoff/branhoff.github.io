@@ -20,39 +20,40 @@ for(var i = 0; themeDots.length > i; i++) {
 }
 
 function setTheme(mode) {
-    // Get the path prefix from any theme dot's data-icon attribute
-    // If we're in posts/, it will be "../images/..." so prefix is "../"
-    // If we're in root, it will be "images/..." so prefix is ""
-    const anyThemeDot = document.querySelector('.theme-dot[data-icon]');
-    const sampleIconPath = anyThemeDot ? anyThemeDot.getAttribute('data-icon') : 'images/';
-    const pathPrefix = sampleIconPath.includes('../') ? '../' : '';
+    // Find the theme dot for this mode and read its icon path
+    const themeDot = document.querySelector(`[data-mode="${mode}"]`);
     
+    if (!themeDot) {
+        console.error(`Theme dot not found for mode: ${mode}`);
+        return;
+    }
+    
+    // Get the icon path from the HTML data attribute
+    const iconPath = themeDot.getAttribute('data-icon');
+    
+    // Derive the base path from the icon path
+    // "../images/NES_icon.svg" → "../"
+    // "images/NES_icon.svg" → ""
+    const basePath = iconPath.includes('../') ? '../' : '';
+    
+    // Set theme CSS
     if (mode == "light") {
-        document.getElementById("theme-style").href = pathPrefix + "themes/default.css"
+        document.getElementById("theme-style").href = basePath + "themes/default.css"
     }
-
-    if (mode == "nes") {
-        document.getElementById("theme-style").href = pathPrefix + "themes/nes.css"
-        const themeIcon = document.getElementById("theme-icon");
-        if (themeIcon) {
-            themeIcon.src = pathPrefix + "images/NES_icon.svg";
-        }
+    else if (mode == "nes") {
+        document.getElementById("theme-style").href = basePath + "themes/nes.css"
     }
-
-    if (mode == "snes") {
-        document.getElementById("theme-style").href = pathPrefix + "themes/snes.css"
-        const themeIcon = document.getElementById("theme-icon");
-        if (themeIcon) {
-            themeIcon.src = pathPrefix + "images/SNES_icon.svg";
-        }
+    else if (mode == "snes") {
+        document.getElementById("theme-style").href = basePath + "themes/snes.css"
     }
-
-    if (mode == "n64") {
-        document.getElementById("theme-style").href = pathPrefix + "themes/n64.css"
-        const themeIcon = document.getElementById("theme-icon");
-        if (themeIcon) {
-            themeIcon.src = pathPrefix + "images/N64_icon.svg";
-        }
+    else if (mode == "n64") {
+        document.getElementById("theme-style").href = basePath + "themes/n64.css"
+    }
+    
+    // Set theme icon (use the exact path from HTML)
+    const themeIcon = document.getElementById("theme-icon");
+    if (themeIcon && iconPath) {
+        themeIcon.src = iconPath;
     }
 
     localStorage.setItem("theme", mode)
