@@ -1,15 +1,8 @@
-# How to develop locally
+# Docker-First Local Development: Building Reproducible Development Environments
 
 ## Problem
 
-Years of debugging convuluted sytems have given me a couple of core principles:
-
-- Automation is the preventative medicine against the disease that is technical debt.
-- Executable documentation is the form of documentation you can consistently rely on.
-
-These principles are applicable in many facets of software engineering, but best practice starts at home and the first place we need to apply these principles is in our own approach to local development.
-
-Firstly, do any of these scenarios sound familiar?
+A fine line separates the our local machines from being the birthplace of innovation or the graveyard of well intended projects. Given the high stakes, it is relatively strange that most developers and organizations don't make local development a signficant priority. To make my point on the ubquity of poor local development practices, see how well you relate to these struggles:
 
 1. You were diligent and documented your setup perfectly in your README... six months ago. Now half the steps are wrong, and you're debugging your own instructions on a new machine.
 
@@ -17,11 +10,35 @@ Firstly, do any of these scenarios sound familiar?
 
 3. A new team member joins. Day one becomes week one as they navigate undocumented dependencies, missing environment variables, and the new member must meditate on the sisyphean reality of onboarding, so succinctly intimated as "oh yeah, you also need to install..."
 
-4. You feel it is time to return to that world changing project abandoned. You spend the first hour trying to figure out how to get it to run, dooming its already uncertain revival for a new, better project that you definitely won't abandon.
+4. You feel it is time to return to that world changing project you stopped working on for some unknown reason. But you spend the first hour trying to figure out how to get it to run, dooming its already uncertain revival for a new, better project that you definitely won't abandon.
 
-5. You enter negotations with the devil himself to keep your unnervingly hot, hissing, and outdated laptop alive rather than that company mandated upgrade because migrating to a new machine might just kill you. Besides, you haven't used your soul once since LLMs came around.
+5. You enter negotations with the devil himself to keep your unnervingly hot, hissing, and outdated laptop alive rather than give in to accepting that scheduled company upgrade because migrating to a new machine is an unthinkable land mine you'd end up frutilessly navigating. Besides, you haven't used your soul once since LLMs came around.
 
-6. Your team is now evenly split between silicon and intel processor users. Now it's time to give your clients the bad news that you are shutting down the service because consistent on-call support is officially impossible. It was a good run.
+6. Your team is now evenly split between silicon and intel processor users. Therefore it is time to give your clients the bad news that you are shutting down the service because consistent on-call support is officially impossible. It was a good run.
+
+Years of debugging convoluted local sytems has given me a couple of core principles:
+
+- Automation is the preventative medicine against the disease that is technical debt.
+- Executable documentation is among the only documentation you can consistently rely on.
+
+## What this article covers (and what it doesn't)
+
+This article demonstrates a specific approach to local development that tries to address the reproducibility and onboarding problems outlined above.
+
+In this article I hope to give you an overview of:
+
+1. Running your development tools inside Docker containers rather than installing them natively
+2. Creating a personalized development foundation that you can extend for any project
+
+### What we won't cover
+
+This isn't a comprehensive Docker guide. I won't dive deep into performance optimization, production deployment strategies, or complex multi-service orchestration. Those are important topics, but they're beyond this article's scope.
+
+### The goal
+
+By the end of this article, you'll have a template for creating consistent, reproducible development environments that feel as comfortable as your native setup while being signficantly more portable.
+
+So with these disclaimers out of the way, let's get started.
 
 ## Requirements of an ideal solution
 
@@ -29,23 +46,23 @@ We face a fundamental tension as software engineers: we want the speed and ease 
 
 We could write our software inside of a dedicated cloud based development space. But we'll likely run into the headwinds of a slower connection, additional cloud fees, and a more cumbersome setup.
 
-If we manage our local development by installing all of our preferred and required tools manually, we're maxinmizing flexibility and speed, but it is challenging to replicate and we'll hit most of the problems we outlined above.
+If we manage our local development by installing all of our preferred and required tools manually, we're maxinmizing flexibility and speed, but it is challenging to replicate and we'll eventually hit most of the problems we outlined above.
 
-My proposal then is an approach that tries to minimize these tradeoffs and stirkes a balance between convience and parity. Namely, using docker containers on our local machines with a few additional strategies to give us that tailored local development feel we do our best work in while solving the local development issues we've mostly just begrudingly accepted drudging through.
+My proposal then is an approach that tries to minimize these tradeoffs and strikes a balance between convience and parity. Namely, using docker containers on our local machines with a few additional strategies to give us that tailored local development feel we do our best work in while solving the local issues we've mostly accepted begrdugingly drudging through.
 
 ## The brass tacks of Docker-based development
 
-Let's outline the advantages and challenges we'll face with my proposed methodology.
+Let's outline the advantages and challenges we'll face with this proposed methodology.
 
-Advantages:
+### Advantages
 
 - Your local development container more closely mirrors production containers than your bespoke local development setup.
 - Docker gives us much better reproducibility. We should expect commands like `docker build`, `docker run`, and `docker-compose up` to work identically across machines.
-- We achieve a self-documenting workflow since our dependencies are explicitly declared in Dockerfiles.
+- We can achieve a self-documenting workflow since our dependencies are explicitly declared in Dockerfiles.
 - Multiple projects with conflicting dependencies can coexist peacefully.
 - We have a version controlled development environment because the whole setup is now code.
 
-Challenges:
+### Challenges
 
 - Volume mounts can be slower than native file access.
 - Container debugging requires basic Linux skills. (but come on... you should have/want those).
@@ -54,7 +71,18 @@ Challenges:
 
 ## How we can minimize the challenges and maximize the advantages?
 
-My proposed approach is to combine Docker's reproducability with local development's convenience through a few straegic design choices. Namely:
+Most Docker development approaches fall into two camps:
+
+- Project-specific containers that rebuild everything from scratch (slow, inconsistent tooling)
+- Heavy, pre-built dev containers that include everything but feel generic
+
+This approach tries to split the difference by creating a personalized base image with your preferred tools and configurations, then extending it for specific projects. This gives you:
+
+- The speed and familiarity of your customized environment
+- The reproducibility and portability of containers  
+- A pattern that scales across any number of projects
+
+Rather than choosing between convenience and consistency, we can combine Docker's reproducibility with local development's convenience through a few strategic design choices:
 
 1. Use a carefully crafted base image with your preferred tools, extending it for specific projects rather than starting fresh each time.
 
@@ -100,7 +128,7 @@ So after using stow, my home directory looks something like this:
 └── .zshrc.pre-oh-my-zsh -> dotfiles/.zshrc
 ```
 
-Notice that my dotfiles are in a shared directory and being symlinked back, So I can reference and pull in my preferred configurations to my base development container.
+Notice that my dotfiles are in a shared directory and being symlinked back to my `$HOME`. What's nice about this is that I can easily reference and pull in my preferred configurations to my base development container because they're all in a common directory.
 
 ### Our `dev-base` container
 
@@ -155,7 +183,7 @@ ARG USER_GID=$USER_UID
 
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
-    && echo "$USERNAME ALL=(ALL) NOPASSWD: /usr/bin/apt-get, /usr/bin/apt" >> /etc/sudoers
+    && echo "$USERNAME ALL=(ALL) NOPASSWD: /usr/bin/apt-get, /usr/bin/apt" > /etc/sudoers.d/$USERNAME
 ```
 
 For additional installations, we can switch to our user in our base Dockerfile.
@@ -235,7 +263,7 @@ ARG USER_GID=$USER_UID
 
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
-    && echo "$USERNAME ALL=(ALL) NOPASSWD: /usr/bin/apt-get, /usr/bin/apt" >> /etc/sudoers
+    && echo "$USERNAME ALL=(ALL) NOPASSWD: /usr/bin/apt-get, /usr/bin/apt" > /etc/sudoers.d/$USERNAME
 
 USER $USERNAME
 WORKDIR /home/$USERNAME
@@ -247,7 +275,7 @@ RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/inst
 RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions \
     && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
-# Install Spaceship theme
+# Install Spaceship theme for terminal
 RUN git clone https://github.com/spaceship-prompt/spaceship-prompt.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/spaceship-prompt --depth=1 \
     && ln -s ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/spaceship-prompt/spaceship.zsh-theme ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/spaceship.zsh-theme
 
@@ -316,7 +344,7 @@ dev-base     latest     6351a5d71ff7   3 minutes ago   612MB
 
 Now let's go through a few example projects that can build on top of this base image.
 
-## Example: Unique LaTeX Usecase
+## Example: LaTeX Development (Why the Base Image Matters)
 
 Here's a real-world example where Docker converts a painful setup into a clean, self-documented, and version controlled onboarding process.
 
@@ -327,7 +355,7 @@ I chose LaTeX screenplay writing deliberately, not because it's common, but beca
 - System-specific configuration that varies between macOS/Linux/WSL
 - Documentation that inevitably goes stale
 
-This is exactly where containerization pays massive dividends. What would normally be a arduous setup with moments of confusion and belwiderment becomes a simple matter of executing a `docker run` command.
+This is exactly where containerization pays signficant dividends. What would normally be an arduous setup with moments of confusion and bewilderment becomes a simple matter of executing a `docker run` command.
 
 ```Dockerfile
 FROM dev-base:latest
@@ -378,7 +406,15 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["/bin/zsh"]
 ```
 
-We can then add a basic `run-dev.sh` shell script that will build and run our project for us.
+Notice how this Dockerfile starts with FROM dev-base:latest. This means:
+
+- No reinstalling basic tools - git, vim, zsh, and all your dotfiles are already there
+- Consistent environment - every project feels familiar because they share the same foundation
+- Faster builds - we're only adding LaTeX-specific dependencies, not rebuilding your entire development environment
+
+Compare this to starting from debian:bookworm-slim every time - you'd be reinstalling oh-my-zsh, copying dotfiles, and configuring your shell for every single project.
+
+For improved "executable documentation", We can then add a basic `run-dev.sh` shell script that will build and run our project for us.
 
 ```bash
 #!/bin/bash
@@ -390,7 +426,13 @@ docker build -t screenplay-latex .
 docker run -it --rm -v "$(pwd):/home/devuser/workspace" screenplay-latex
 ```
 
-## A relatively normal web development example
+This complex LaTeX setup is now completely portable and reusable. What was once a fragile, machine-specific configuration is captured in code and builds identically anywhere.
+
+This same pattern works for any specialized environment, whether it's a legacy Python version, a specific Node.js setup, or even more unconventional requirements.
+
+## A more common example: web development
+
+Let's see how this base image approach applies to a more typical development scenario, a simple web development environment with Node.js tooling.
 
 ```Dockerfile
 FROM dev-base:latest
@@ -435,8 +477,8 @@ Here is the base script and the referenced helper scripts from the webdev Docker
 
 # Stop and remove any existing container first
 echo "Cleaning up existing container..."
-docker stop branhoff-web-dev 2>/dev/null || true
-docker rm branhoff-web-dev 2>/dev/null || true
+docker stop web-dev-container 2>/dev/null || true
+docker rm web-dev-container 2>/dev/null || true
 
 # Build the development image
 echo "Building web development container..."
@@ -458,7 +500,7 @@ echo "  - http://localhost:8000 (basic server)"
 echo "  - http://localhost:8080 (live-reload server)"
 echo ""
 echo "To access the container shell:"
-echo "  docker exec -it branhoff-web-dev /bin/zsh"
+echo "  docker exec -it web-dev-container /bin/zsh"
 echo ""
 echo "Inside the container, use:"
 echo "  webdev live    # Start live-reload server"
@@ -468,7 +510,7 @@ echo "================================================================"
 
 # Run container with volume mounting
 if ! docker run -d \
-  --name branhoff-web-dev \
+  --name web-dev-container \
   -p 8000:8000 \
   -p 8080:8080 \
   -v "$(pwd):/home/devuser/workspace" \
@@ -480,10 +522,10 @@ fi
 echo "Container started! Basic server running on port 8000."
 echo ""
 echo "Verify the mount worked:"
-echo "  docker exec branhoff-web-dev ls -la /home/devuser/workspace"
+echo "  docker exec web-dev-container ls -la /home/devuser/workspace"
 echo ""
 echo "Access the shell:"
-echo "  docker exec -it branhoff-web-dev /bin/zsh"
+echo "  docker exec -it web-dev-container /bin/zsh"
 ```
 
 ### `entrypoint.sh`
@@ -538,187 +580,19 @@ case "$1" in
 esac
 ```
 
-This hopefully gives you some ideas of how you can have your "local development" cake and eat it too. There are many other topics that can be expanded upon.
-- docker-compose
-- dockerignore
-- 
+## Key Takeaways
+
+This base image approach solves the core problems we identified:
+
+1. **Reproducible environments** - Your base image is version-controlled and identical across machines
+2. **Fast onboarding** - New team members run one script and get your exact development environment
+3. **Project isolation** - Conflicting dependencies can't interfere with each other
+4. **Familiar tooling** - Every container feels like your personalized development machine
+
+**Start here:** Build your own `dev-base` image with your preferred tools, then extend it for your next project. You'll immediately feel the difference in setup time and environment consistency.
+
+**Next steps:** Once this pattern clicks, explore docker-compose for multi-service projects and performance optimizations for your specific platform.
 
 ## Additional Material and References
 
 - [How I manage my dotfiles using GNU Stow](https://tamerlan.dev/how-i-manage-my-dotfiles-using-gnu-stow/)
-
----
-
-## Stream of conciousness
-
-Local development is a fundamental problem. We must balance convience while minimizing differences between our production environements.
-
-Cloud based environments (Often require our IDEs to SSH, making it slow and cumbersome)
-Local environemnts (faster and easier to incorporate useful development tools, but a weaker correlation with production environemtns)
-
-At a minimum our local development environments should be built off of a Dockerfile.
-
-What most people do that is worse possible scenario:
-
-- Everyone is developing on different operating systems
-- Manual Steps like setting the correct environment variables
-- Having to manually install languages, editors, tooling
-- Having to manage multiple projects and trying to prevent conflicts across various tooling (switching java or python versions for instance)
-- Local development changes not being recorded by long-term members, making the onboarding process of new engineers expensive and time consuming
-
-A Solution:
-Develop inside of a local docker container where we mount locally to make connecting our IDEs easy.
-
-A Problem and a Solution:
-The only issue with developing inside of a fresh container is that we'll lose many of our preferred local development tools. For instance, I rely heavily on the `zsh` terminal extension `oh-my-zsh` for autocompleting frequently run commands or my aliases that I'm accustomed too.
-
-It would be a pain across projects to have to install each of these manually in every container and reset everything up. So, to reduce this burden, we can create a "base development" container that we can extend onto. We'll copy our dotfiles into a dotfiles directory
-
-### base-dev container
-
-Use stow to help manage your dotfiles in a dotfiles directory.
-
-```bash
-#!/bin/bash
-
-set -e
-
-# Check if DOTFILES_DIR is set, if not prompt user
-if [[ -z "$DOTFILES_DIR" ]]; then
-    read -p "Enter dotfiles directory path: " -r DOTFILES_DIR
-    DOTFILES_DIR="${DOTFILES_DIR/#\~/$HOME}"
-    export DOTFILES_DIR
-fi
-
-echo "Using dotfiles from: $DOTFILES_DIR"
-
-cp -r $DOTFILES_DIR .
-
-# Build the image, passing DOTFILES_DIR as build argument
-docker build -f Dockerfile.base -t dev-base:latest --build-arg DOTFILES_DIR="$DOTFILES_DIR" .
-
-echo "✅ Built dev-base:latest"
-
-echo "cleaning up temp dotfiles directory"
-rm -rf ./dotfiles
-```
-
-```Dockerfile
-FROM debian:bookworm-slim
-
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    wget \
-    zsh \
-    vim \
-    nano \
-    build-essential \
-    unzip \
-    ca-certificates \
-    sudo \
-    htop \
-    tree \
-    jq \
-    locales \
-    && rm -rf /var/lib/apt/lists/*
-
-# Create consistent user
-ARG USERNAME=devuser
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
-    && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-
-# Switch to user for oh-my-zsh installation
-USER $USERNAME
-WORKDIR /home/$USERNAME
-
-# Install oh-my-zsh
-RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-
-# Install popular zsh plugins
-RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions \
-    && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-
-# Install Spaceship theme
-RUN git clone https://github.com/spaceship-prompt/spaceship-prompt.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/spaceship-prompt --depth=1 \
-    && ln -s ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/spaceship-prompt/spaceship.zsh-theme ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/spaceship.zsh-theme
-
-# Copy our curated dotfiles into the image
-ARG DOTFILES_DIR
-COPY --chown=$USERNAME:$USERNAME dotfiles/.zshrc /home/$USERNAME/.zshrc
-COPY --chown=$USERNAME:$USERNAME dotfiles/.gitconfig /home/$USERNAME/.gitconfig
-COPY --chown=$USERNAME:$USERNAME dotfiles/.vimrc /home/$USERNAME/.vimrc
-
-RUN mkdir -p /home/$USERNAME/workspace
-
-WORKDIR /home/$USERNAME/workspace
-
-CMD ["/bin/zsh"]
-```
-
-### Development container
-
-```bash
-#!/bin/bash
-
-# Build the image
-docker build -t screenplay-latex .
-
-# Run container with interactive terminal and volume mounting
-docker run -it --rm -v "$(pwd):/home/devuser/workspace" screenplay-latex
-```
-
-screenplay-latex project
-
-```Dockerfile
-FROM dev-base:latest
-
-USER root
-
-RUN apt-get update && apt-get install -y \
-    pandoc \
-    texlive-latex-base \
-    texlive-latex-extra \
-    texlive-fonts-recommended \
-    texlive-latex-recommended \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install screenplay package from the official source
-RUN cd /tmp && \
-    # Download the screenplay package
-    wget http://dvc.org.uk/sacrific.txt/screenplay.zip && \
-    unzip screenplay.zip && \
-    # Generate the class files using the provided installer
-    latex screenplay.ins && \
-    # Create the correct directory where TeX looks for local packages
-    mkdir -p /usr/local/share/texmf/tex/latex/screenplay && \
-    # Copy the generated files to the correct location
-    cp screenplay.cls /usr/local/share/texmf/tex/latex/screenplay/ && \
-    cp hardmarg.sty /usr/local/share/texmf/tex/latex/screenplay/ && \
-    # Update the TeX filename database for the local tree
-    mktexlsr /usr/local/share/texmf && \
-    # Copy example files to permanent location
-    mkdir -p /usr/local/share/screenplay-examples && \
-    cp example.tex test.tex /usr/local/share/screenplay-examples/
-
-# Verify installation works by testing if TeX can find the class
-RUN kpsewhich screenplay.cls
-
-# Create an entrypoint script that copies examples directory and starts bash
-RUN echo '#!/bin/bash' > /usr/local/bin/entrypoint.sh && \
-    echo 'cp -r /usr/local/share/screenplay-examples /home/devuser/workspace/ 2>/dev/null || true' >> /usr/local/bin/entrypoint.sh && \
-    echo 'exec "$@"' >> /usr/local/bin/entrypoint.sh && \
-    chmod +x /usr/local/bin/entrypoint.sh
-
-
-USER devuser
-WORKDIR /home/devuser/workspace
-
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["/bin/zsh"]
-```

@@ -1,28 +1,36 @@
 {
-    "blog_posts": [
-      {
-        "id": "apache-pulsar-scalable-messaging",
-        "title": "Building Scalable Message Systems with Apache Pulsar",
-        "date": "2025-01-15",
-        "tags": ["DevOps", "Apache Pulsar", "Distributed Systems"],
-        "excerpt": "In my current role at The Climate Corp, I've been working extensively with Apache Pulsar to build robust message brokering systems. Here are some key insights I've gathered about implementing scalable messaging architectures in production environments.",
-        "file": "posts/apache-pulsar-scalable-messaging.html"
-      },
-      {
-        "id": "terraform-best-practices",
-        "title": "Infrastructure as Code: Terraform Best Practices",
-        "date": "2025-01-10", 
-        "tags": ["Terraform", "IaC", "Cloud"],
-        "excerpt": "Managing cloud infrastructure at scale requires a systematic approach. Through my experience with Terraform, I've developed a set of practices that ensure maintainable and reliable infrastructure deployments across multiple environments.",
-        "file": "posts/terraform-best-practices.html"
-      },
-      {
-        "id": "kubernetes-production-lessons",
-        "title": "Kubernetes in Production: Lessons Learned",
-        "date": "2025-01-05",
-        "tags": ["Kubernetes", "Container Orchestration", "Production"],
-        "excerpt": "Running Kubernetes in production environments presents unique challenges. From resource management to monitoring and debugging, here's what I've learned about operating container orchestration at scale.",
-        "file": "posts/kubernetes-production-lessons.html"
-      }
-    ]
-  }
+  "blog_posts": [
+    {
+      "id": "docker-first-local-development",
+      "title": "Docker-First Local Development: Building Reproducible Development Environments",
+      "date": "2025-01-20",
+      "tags": ["Docker", "DevOps", "Development Environment"],
+      "excerpt": "A fine line separates our local machines from being the birthplace of innovation or the graveyard of well intended projects. This article demonstrates a specific approach to local development using Docker containers that addresses reproducibility and onboarding problems while maintaining the speed and familiarity of local development.",
+      "file": "posts/docker-first-local-development.html"
+    },
+    {
+      "id": "apache-pulsar-scalable-messaging",
+      "title": "Building Scalable Message Systems with Apache Pulsar",
+      "date": "2025-01-15",
+      "tags": ["DevOps", "Apache Pulsar", "Distributed Systems"],
+      "excerpt": "In my current role at The Climate Corp, I've been working extensively with Apache Pulsar to build robust message brokering systems. Here are some key insights I've gathered about implementing scalable messaging architectures in production environments.",
+      "file": "posts/apache-pulsar-scalable-messaging.html"
+    },
+    {
+      "id": "terraform-best-practices",
+      "title": "Infrastructure as Code: Terraform Best Practices",
+      "date": "2025-01-10", 
+      "tags": ["Terraform", "IaC", "Cloud"],
+      "excerpt": "Managing cloud infrastructure at scale requires a systematic approach. Through my experience with Terraform, I've developed a set of practices that ensure maintainable and reliable infrastructure deployments across multiple environments.",
+      "file": "posts/terraform-best-practices.html"
+    },
+    {
+      "id": "kubernetes-production-lessons",
+      "title": "Kubernetes in Production: Lessons Learned",
+      "date": "2025-01-05",
+      "tags": ["Kubernetes", "Container Orchestration", "Production"],
+      "excerpt": "Running Kubernetes in production environments presents unique challenges. From resource management to monitoring and debugging, here's what I've learned about operating container orchestration at scale.",
+      "file": "posts/kubernetes-production-lessons.html"
+    }
+  ]
+}
