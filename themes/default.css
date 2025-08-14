@@ -635,16 +635,19 @@ h6 { font-size: 16px; }
 }
 
 .blog-post-full .post-content p {
+    color: var(--blogPostText);
     margin-bottom: 20px;
 }
 
 .blog-post-full .post-content ul, 
 .blog-post-full .post-content ol {
+    color: var(--blogPostText);
     margin: 20px 0;
     padding-left: 30px;
 }
 
 .blog-post-full .post-content li {
+    color: var(--blogPostText);
     margin-bottom: 10px;
 }
 

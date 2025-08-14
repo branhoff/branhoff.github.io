@@ -9,8 +9,88 @@
     <link rel="stylesheet" type="text/css" href="../themes/default.css">
     <link id="theme-style" rel="stylesheet" type="text/css" href="">
     <!-- Add Prism.js for syntax highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        /* Custom styling for code blocks to ensure good contrast */
+        pre[class*="language-"] {
+            background: #2d3748 !important;
+            color: #e2e8f0 !important;
+            border-radius: 6px;
+            padding: 1rem !important;
+            margin: 1rem 0 !important;
+            overflow-x: auto;
+        }
+        
+        code[class*="language-"] {
+            color: #e2e8f0 !important;
+            background: transparent !important;
+        }
+        
+        /* Dockerfile syntax highlighting colors */
+        .token.keyword {
+            color: #63b3ed !important; /* Blue for keywords like FROM, RUN */
+        }
+        
+        .token.string {
+            color: #68d391 !important; /* Green for strings */
+        }
+        
+        .token.comment {
+            color: #a0aec0 !important; /* Gray for comments */
+        }
+        
+        .token.operator {
+            color: #f6ad55 !important; /* Orange for operators */
+        }
+        
+        .token.punctuation {
+            color: #cbd5e0 !important; /* Light gray for punctuation */
+        }
+        
+        /* Additional token types for better coverage */
+        .token.builtin,
+        .token.symbol,
+        .token.constant {
+            color: #fbb6ce !important; /* Pink for built-in values */
+        }
+        
+        .token.function,
+        .token.class-name {
+            color: #faf089 !important; /* Yellow for functions/commands */
+        }
+        
+        .token.number {
+            color: #fc8181 !important; /* Red for numbers */
+        }
+        
+        .token.boolean {
+            color: #f6ad55 !important; /* Orange for booleans */
+        }
+        
+        .token.variable {
+            color: #81e6d9 !important; /* Cyan for variables */
+        }
+        
+        /* Fallback for any unspecified text */
+        .language-dockerfile *,
+        .language-bash * {
+            color: #e2e8f0 !important; /* Light gray fallback */
+        }
+        
+        /* Ensure plain text in code blocks is readable */
+        pre[class*="language-"] *:not([class*="token"]) {
+            color: #e2e8f0 !important;
+        }
+        
+        /* Inline code styling */
+        :not(pre) > code {
+            background: #4a5568 !important;
+            color: #e2e8f0 !important;
+            padding: 0.2rem 0.4rem !important;
+            border-radius: 3px !important;
+            font-size: 0.875em !important;
+        }
+    </style>
 </head>
 
 <body>
