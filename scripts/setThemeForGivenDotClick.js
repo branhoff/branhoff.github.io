@@ -20,23 +20,39 @@ for(var i = 0; themeDots.length > i; i++) {
 }
 
 function setTheme(mode) {
+    // Get the path prefix from any theme dot's data-icon attribute
+    // If we're in posts/, it will be "../images/..." so prefix is "../"
+    // If we're in root, it will be "images/..." so prefix is ""
+    const anyThemeDot = document.querySelector('.theme-dot[data-icon]');
+    const sampleIconPath = anyThemeDot ? anyThemeDot.getAttribute('data-icon') : 'images/';
+    const pathPrefix = sampleIconPath.includes('../') ? '../' : '';
+    
     if (mode == "light") {
-        document.getElementById("theme-style").href = "themes/default.css"
+        document.getElementById("theme-style").href = pathPrefix + "themes/default.css"
     }
 
     if (mode == "nes") {
-        document.getElementById("theme-style").href = "themes/nes.css"
-        document.getElementById("theme-icon").src = "images/NES_icon.svg"
+        document.getElementById("theme-style").href = pathPrefix + "themes/nes.css"
+        const themeIcon = document.getElementById("theme-icon");
+        if (themeIcon) {
+            themeIcon.src = pathPrefix + "images/NES_icon.svg";
+        }
     }
 
     if (mode == "snes") {
-        document.getElementById("theme-style").href = "themes/snes.css"
-        document.getElementById("theme-icon").src = "images/SNES_icon.svg"
+        document.getElementById("theme-style").href = pathPrefix + "themes/snes.css"
+        const themeIcon = document.getElementById("theme-icon");
+        if (themeIcon) {
+            themeIcon.src = pathPrefix + "images/SNES_icon.svg";
+        }
     }
 
     if (mode == "n64") {
-        document.getElementById("theme-style").href = "themes/n64.css"
-        document.getElementById("theme-icon").src = "images/N64_icon.svg"
+        document.getElementById("theme-style").href = pathPrefix + "themes/n64.css"
+        const themeIcon = document.getElementById("theme-icon");
+        if (themeIcon) {
+            themeIcon.src = pathPrefix + "images/N64_icon.svg";
+        }
     }
 
     localStorage.setItem("theme", mode)

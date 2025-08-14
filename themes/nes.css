@@ -1,28 +1,62 @@
-:root{
-	--mainColor:#d9d9d9;
-	--secondaryColor:#4d4d4d;
+:root {
+	/* Main Theme Colors */
+    --mainColor: #d9d9d9;
+    --secondaryColor: #4d4d4d;
+    --borderColor: #e95752;
 
-	--borderColor:#e95752;
+	/* Text Colors */
+    --mainHeaderText: #e95752;
+    --secondaryHeaderText: #e95752;
+    --mainBodyText: #d9d9d9;
+    --secondaryBodyText: #e95752;
 
-	--mainHeaderText: #e95752;
-    --secondaryHeaderText:#e95752;
+	/* Theme Elements */
+    --themeDotBorder: #e95752;
+    /* #d9d9d */
+    --iconColor: invert(97%) sepia(0%) saturate(312%) hue-rotate(170deg) brightness(87%) contrast(102%);
 
-    --mainBodyText:#d9d9d9;
-    --secondaryBodyText:#e95752;
+	/* Preview/Skills Section */
+    --previewBg: rgb(217, 217, 217, 0.8);
+    --previewText: #4d4d4d;
+    --previewShadow: #e95752;
+    --skillsList: #4d4d4d;
 
-	--themeDotBorder:#e95752;
-
-	/* #d9d9d */
-	--iconColor: invert(97%) sepia(0%) saturate(312%) hue-rotate(170deg) brightness(87%) contrast(102%);	
-
-	--previewBg:rgb(217, 217, 217, 0.8);
-	--previewText: #4d4d4d;
-	--previewShadow: #e95752;
-
-	--skillsList: #4d4d4d;
-
-	--buttonColor:#e95752;
-
-	--hyperlinkColor: #e95752;
+	/* Interactive Elements */
+    --buttonColor: #e95752;
+    --hyperlinkColor: #e95752;
     --contactLinkColor: #4d4d4d;
+
+	/* Project Cards */
+	--projectCardBg: #f0f0f0;
+	--projectCardText: #2d2d2d;
+	--projectCardBorder: #e95752;
+
+	/* Blog Listing Page */
+	--blogListingCardBg: #f0f0f0;
+	--blogListingCardText: #2d2d2d;
+	--blogListingCardBorder: #e95752;
+	--blogListingCardMeta: #666666;
+	--blogListingCardAccent: #e95752;
+
+	/* Blog Sidebar */
+	--blogSidebarBg: #faf0f0;
+	--blogSidebarText: #2d2d2d;
+	--blogSidebarHeader: #e95752;
+	--blogSidebarTagBg: #e95752;
+	--blogSidebarTagText: #ffffff;
+
+	/* Individual Blog Post Page */
+	--blogPostBg: #f8f8f8;
+	--blogPostText: #2d2d2d;
+	--blogPostBorder: #e95752;
+	--blogPostHeaderText: #e95752;
+	--blogPostMeta: #666666;
+	--blogPostAccent: #e95752;
+
+	/* Homepage Blog Preview Cards */
+	--blogPreviewCardBg: #f0f0f0;
+	--blogPreviewCardText: #2d2d2d;
+	--blogPreviewCardBorder: #e95752;
+	--blogPreviewCardMeta: #666666;
+	--blogPreviewCardAccent: #e95752;
 }

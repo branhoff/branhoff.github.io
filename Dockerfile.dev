@@ -1,0 +1,31 @@
+FROM dev-base:latest
+
+USER root
+
+RUN apt-get update && apt-get install -y \
+    nodejs \
+    npm \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install web development tools globally
+RUN npm install -g \
+    http-server \
+    live-server \
+    prettier
+
+# Copy entrypoint script that starts web server and keeps container running
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Copy helper script for common development tasks
+COPY webdev-helper.sh /usr/local/bin/webdev
+RUN chmod +x /usr/local/bin/webdev
+
+USER devuser
+WORKDIR /home/devuser/workspace
+
+# Expose ports for web servers
+EXPOSE 8000 8080
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["tail", "-f", "/dev/null"]
