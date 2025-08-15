@@ -162,7 +162,7 @@
                         <li>A new team member joins. Day one becomes week one as they navigate undocumented dependencies, missing environment variables, and the new member must meditate on the sisyphean reality of onboarding, so succinctly intimated as "oh yeah, you also need to install..."</li>
                         <li>You feel it is time to return to that world changing project you stopped working on for some unknown reason. But you spend the first hour trying to figure out how to get it to run, dooming its already uncertain revival for a new, better project that you definitely won't abandon.</li>
                         <li>You enter negotiations with the devil himself to keep your unnervingly hot, hissing, and outdated laptop alive rather than give in to accepting that scheduled company upgrade because migrating to a new machine is an unthinkable land mine you'd end up fruitlessly navigating. Besides, you haven't used your soul once since LLMs came around.</li>
-                        <li>Your team is now evenly split between silicon and intel processor users. Therefore it is time to give your clients the bad news that you are shutting down the service because consistent on-call support is officially impossible. It was a good run.</li>
+                        <li>Your team is now evenly split between silicon and intel processor users. Therefore it is time to give your users the bad news that you are shutting down the service because consistent on-call support is officially impossible. It was a good run.</li>
                     </ol>
 
                     <p>Years of debugging convoluted local systems has given me a couple of core principles:</p>
@@ -252,7 +252,7 @@
 
                     <p>I want to make an aside/suggestion on a prerequisite that will make our containers come pre-configured with our local environment's preferred tooling and settings is to have good dotfile management.</p>
 
-                    <p>Namely, my recommendation for the tool <a href="https://www.gnu.org/software/stow/"><code>stow</code></a>. I won't go into detail about how to set this up or use this tool, but, in a nutshell we want to keep our dotfiles (<code>.zshrc</code>, <code>.vim</code>, <code>etc.</code>) in a dotfiles directory that symlinks to our home directory.</p>
+                    <p>Namely, my recommendation for the tool <a href="https://www.gnu.org/software/stow/">stow</a>. I won't go into detail about how to set this up or use this tool, but, in a nutshell we want to keep our dotfiles (<code>.zshrc</code>, <code>.vim</code>, etc.) in a dotfiles directory that symlinks to our home directory.</p>
 
                     <p>This is because Docker can only access files in its "build context"; the directory where you run <code>docker build</code>. So as part of our build process we want to copy dotfiles into our build context first. Having a common place for our dotfiles, means that we can copy these dotfiles consistently.</p>
 
@@ -272,7 +272,6 @@
 │   ├── .gitignore
 │   ├── .oh-my-zsh
 │   ├── README.md
-│   ├── .zcompdump
 │   └── .zshrc
 ├── .gitconfig
 ├── Music
@@ -281,8 +280,8 @@
 ├── Projects
 ├── Public
 ├── .ssh # this is a dotfile, but we don't want to be copying .ssh keys
-├── .zcompdump -> dotfiles/.zcompdump # should this be copied into my dotfiles?
-├── .zsh_history
+├── .zcompdump # Don't need to stow this either. Just for caching to improve startup time.
+├── .zsh_history # No need to stow this unless keeping your command history saved is useful to you
 ├── .zshrc -> dotfiles/.zshrc # notice the symlink
 └── .zshrc.pre-oh-my-zsh -> dotfiles/.zshrc</code></pre>
 
@@ -362,7 +361,10 @@ RUN git clone https://github.com/spaceship-prompt/spaceship-prompt.git ${ZSH_CUS
 
                     <p>In a shell script that we'll review later, we'll manage the copying and cleaning up of our dotfiles into the directory where our base Dockerfile is.</p>
 
-<pre><code class="language-dockerfile"># These are just two examples of configurations I want copied in. I don't need every dotfile, but as time passes and my tooling changes, I can always add additional COPY lines for future dotfiles.
+<pre><code class="language-dockerfile">
+# These are just two examples of configurations I want copied in. 
+# I don't need every dotfile, but as time passes and my tooling changes, 
+# I can always add additional COPY lines for future dotfiles.
 COPY --chown=$USERNAME:$USERNAME dotfiles/.zshrc /home/$USERNAME/.zshrc
 COPY --chown=$USERNAME:$USERNAME dotfiles/.vimrc /home/$USERNAME/.vimrc</code></pre>
 
