@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Docker-First Local Development: Building Reproducible Development Environments - Brandon Hoffman</title>
+    <title>Docker-first local development: building reproducible development environments - Brandon Hoffman</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&family=Russo+One&display=swap" rel="stylesheet">
@@ -144,9 +144,9 @@
         <div class="main-container">
             <article class="blog-post-full">
                 <header class="post-header">
-                    <h1>Docker-First Local Development: Building Reproducible Development Environments</h1>
+                    <h1>Docker-first local development: building reproducible development environments</h1>
                     <div class="post-meta">
-                        <time datetime="2025-01-15">January 15, 2025</time>
+                        <time datetime="2025-08-14">August 14, 2025</time>
                         <span class="tags">Docker, DevOps, Development Environment</span>
                     </div>
                 </header>
@@ -485,7 +485,7 @@ dev-base     latest     6351a5d71ff7   3 minutes ago   612MB</code></pre>
 
                     <p>Now let's go through a few example projects that can build on top of this base image.</p>
 
-                    <h2>Example: LaTeX Development (Why the Base Image Matters)</h2>
+                    <h2>Example: LaTeX development (why the base image matters)</h2>
 
                     <p>Here's a real-world example where Docker converts a painful setup into a clean, self-documented, and version controlled onboarding process.</p>
 
@@ -713,25 +713,26 @@ case "$1" in
     ;;
 esac</code></pre>
 
-                    <h2>Key Takeaways</h2>
+                    <h2>Key takeaways</h2>
 
                     <p>This base image approach solves the core problems we identified:</p>
 
                     <ol>
-                        <li><strong>Reproducible environments</strong> - Your base image is version-controlled and identical across machines</li>
-                        <li><strong>Fast onboarding</strong> - New team members run one script and get your exact development environment</li>
-                        <li><strong>Project isolation</strong> - Conflicting dependencies can't interfere with each other</li>
-                        <li><strong>Familiar tooling</strong> - Every container feels like your personalized development machine</li>
+                        <li>Your base image is version-controlled and identical across machines</li>
+                        <li>New team members run one script and get your exact development environment</li>
+                        <li>Conflicting dependencies can't interfere with each other</li>
+                        <li>Every container feels like your personalized development machine</li>
                     </ol>
 
-                    <p><strong>Start here:</strong> Build your own <code>dev-base</code> image with your preferred tools, then extend it for your next project. You'll immediately feel the difference in setup time and environment consistency.</p>
+                    <p>Build your own <code>dev-base</code> image with your preferred tools, then extend it for your next project. You'll immediately feel the difference in setup time and environment consistency.</p>
 
-                    <p><strong>Next steps:</strong> Once this pattern clicks, explore docker-compose for multi-service projects and performance optimizations for your specific platform.</p>
+                    <p>Once this pattern clicks, explore docker-compose for multi-service projects and performance optimizations for your specific platform.</p>
 
-                    <h2>Additional Material and References</h2>
+                    <h2>Additional material and references</h2>
 
                     <ul>
                         <li><a href="https://tamerlan.dev/how-i-manage-my-dotfiles-using-gnu-stow/">How I manage my dotfiles using GNU Stow</a></li>
+                        <li><a href="https://www.paolomainardi.com/posts/docker-performance-macos/">HDocker on MacOS is slow and how to fix it</a></li>
                     </ul>
 
                     <div class="post-footer">
