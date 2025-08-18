@@ -6,7 +6,7 @@
       "date": "2025-01-20",
       "tags": ["Docker", "DevOps", "Development Environment"],
       "excerpt": "A fine line separates our local machines from being the birthplace of innovation or the graveyard of well intended projects. This article demonstrates a specific approach to local development using Docker containers that addresses reproducibility and onboarding problems while maintaining the speed and familiarity of local development.",
-      "file": "posts/docker-first-local-development.html"
+      "file": "posts/docker-first-local-development/"
     }
   ]
 }

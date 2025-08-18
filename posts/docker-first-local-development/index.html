@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&family=Russo+One&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="../themes/default.css">
+    <link rel="stylesheet" type="text/css" href="../../themes/default.css">
     <link id="theme-style" rel="stylesheet" type="text/css" href="">
     <!-- Add Prism.js for syntax highlighting -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -105,22 +105,22 @@
                     </div>
 
                     <ul id="navigation">
-                        <li><a href="../index.html">Home</a></li>
-                        <li><a href="../blog.html">Blog</a></li>
-                        <li><a href="../index.html#contact">Contact</a></li>
+                        <li><a href="../../index.html">Home</a></li>
+                        <li><a href="../../blog.html">Blog</a></li>
+                        <li><a href="../../index.html#contact">Contact</a></li>
                     </ul>
                 </div>
 
                 <div class="left-column">
                     <h5 style="text-align: center; line-height: 0;">Personalize Your Theme</h5>
                     <div id="theme-options-wrapper">
-                        <div data-mode="light" data-text="Default" data-icon="../images/Switch_icon.svg" id="light-mode" class="theme-dot"></div>
-                        <div data-mode="nes" data-text="NES" data-icon="../images/NES_icon.svg" id="nes-mode" class="theme-dot"></div>
-                        <div data-mode="snes" data-text="SNES" data-icon="../images/SNES_icon.svg" id="snes-mode" class="theme-dot"></div>
-                        <div data-mode="n64" data-text="N64" data-icon="../images/N64_icon.svg" id="n64-mode" class="theme-dot"></div>
+                        <div data-mode="light" data-text="Default" data-icon="../../images/Switch_icon.svg" id="light-mode" class="theme-dot"></div>
+                        <div data-mode="nes" data-text="NES" data-icon="../../images/NES_icon.svg" id="nes-mode" class="theme-dot"></div>
+                        <div data-mode="snes" data-text="SNES" data-icon="../../images/SNES_icon.svg" id="snes-mode" class="theme-dot"></div>
+                        <div data-mode="n64" data-text="N64" data-icon="../../images/N64_icon.svg" id="n64-mode" class="theme-dot"></div>
                     </div>
                     <div id="theme-text"></div>
-                    <img id="theme-icon" src="../images/Switch_icon.svg">
+                    <img id="theme-icon" src="../../images/Switch_icon.svg">
                     <p id="settings-note">*Your theme settings will be remembered for your next visit.</p>
                 </div>
 
@@ -154,7 +154,7 @@
                 <div class="post-content">
                     <h2>Problem</h2>
                     
-                    <p>A fine line separates our local machines from being the birthplace of innovation or the graveyard of well intended projects. Given the high stakes, it is relatively strange that most developers and organizations don't make local development a significant priority. To make my point on the ubiquity of poor local development practices, see how well you relate to these struggles:</p>
+                    <p>A fine line separates our local machines from being the birthplace of innovation or the graveyard of well-intentioned projects. Given the high stakes, it is relatively strange that most developers and organizations don't make local development a significant priority. To make my point on the ubiquity of poor local development practices, see how well you relate to these struggles:</p>
 
                     <ol>
                         <li>You were diligent and documented your setup perfectly in your README... six months ago. Now half the steps are wrong, and you're debugging your own instructions on a new machine.</li>
@@ -171,6 +171,18 @@
                         <li>Automation is the preventative medicine against the disease that is technical debt.</li>
                         <li>Executable documentation is among the only documentation you can consistently rely on.</li>
                     </ul>
+
+                    <h2>TL;DR: The 5-step process</h2>
+
+                        <p>Here's what we'll build to solve these development environment headaches:</p>
+
+                        <ol>
+                            <li>Create a personalized base image with your preferred tools, shell configurations, and dotfiles</li>
+                            <li>Build project-specific containers that extend your base image with only the tools needed for that project</li>
+                            <li>Mount your source code so changes sync instantly between container and host</li>
+                            <li>Use helper scripts to automate the build and run process for one-command setup</li>
+                            <li>Enjoy consistent environments across all projects, team members, and machines</li>
+                        </ol>
 
                     <h2>What this article covers (and what it doesn't)</h2>
 
@@ -195,12 +207,24 @@
 
                     <p>We face a fundamental tension as software engineers: we want the speed and ease of developing locally on our machines while also wanting to maintain parity with production environments to minimize deployment snafus.</p>
 
-                    <p>We could write our software inside of a dedicated cloud based development space. But we'll likely run into the headwinds of a slower connection, additional cloud fees, and a more cumbersome setup.</p>
+                    <p>We could write our software inside of a dedicated cloud-based development space. But we'll likely run into the headwinds of a slower connection, additional cloud fees, and a more cumbersome setup.</p>
 
                     <p>If we manage our local development by installing all of our preferred and required tools manually, we're maximizing flexibility and speed, but it is challenging to replicate and we'll eventually hit most of the problems we outlined above.</p>
 
                     <p>My proposal then is an approach that tries to minimize these tradeoffs and strikes a balance between convenience and parity. Namely, using docker containers on our local machines with a few additional strategies to give us that tailored local development feel we do our best work in while solving the local issues we've mostly accepted begrudgingly drudging through.</p>
 
+                    <h2>Prerequisites</h2>
+
+                        <p>You'll need:</p>
+
+                        <ul>
+                            <li>Docker installed and running</li>
+                            <li>Some Docker familiarity (comfortable with <code>docker build</code> and <code>docker run</code>)</li>
+                            <li>Basic command line comfort (running commands, navigating directories)</li>
+                        </ul>
+
+                        <p>Helpful but not required: organized dotfiles (we'll cover dotfile setup if needed).</p>
+                    
                     <h2>The brass tacks of Docker-based development</h2>
 
                     <p>Let's outline the advantages and challenges we'll face with this proposed methodology.</p>
@@ -254,7 +278,7 @@
 
                     <p>Namely, my recommendation for the tool <a href="https://www.gnu.org/software/stow/">stow</a>. I won't go into detail about how to set this up or use this tool, but, in a nutshell we want to keep our dotfiles (<code>.zshrc</code>, <code>.vim</code>, etc.) in a dotfiles directory that symlinks to our home directory.</p>
 
-                    <p>This is because Docker can only access files in its "build context"; the directory where you run <code>docker build</code>. So as part of our build process we want to copy dotfiles into our build context first. Having a common place for our dotfiles, means that we can copy these dotfiles consistently.</p>
+                    <p>This is because Docker can only access files in its "build context" (the directory where you run <code>docker build</code>). This is why we need to copy dotfiles into our project directory temporarily. Having a common place for our dotfiles, means that we can copy these dotfiles consistently.</p>
 
                     <p>So after using stow, my home directory looks something like this:</p>
 
@@ -485,6 +509,18 @@ REPOSITORY   TAG        IMAGE ID       CREATED         SIZE
 dev-base     20250802   6351a5d71ff7   3 minutes ago   612MB
 dev-base     latest     6351a5d71ff7   3 minutes ago   612MB</code></pre>
 
+<div class="screenshot-comparison">
+    <h3>Before and after: basic container vs. enahnced dev-base</h3>
+    <p>Let's see the difference between a basic Debian container and our personalized dev-base:</p>
+    
+    <div class="comparison-images">
+        <img src="./images/basic-container-terminal.png" alt="Basic Debian container with plain bash prompt" />
+        <img src="./images/enhanced-container-terminal.png" alt="Enhanced dev-base container with oh-my-zsh and custom theme" />
+    </div>
+    
+    <p><em>Above: Basic debian:bookworm-slim container with minimal tools. Below: Our personalized dev-base with oh-my-zsh, custom theme, and familiar configurations. Notice the immediate difference in prompt, available tools, and overall feel.</em></p>
+</div>
+
                     <p>Now let's go through a few example projects that can build on top of this base image.</p>
 
                     <h2>Example: LaTeX development (why the base image matters)</h2>
@@ -572,6 +608,17 @@ docker run -it --rm -v "$(pwd):/home/devuser/workspace" screenplay-latex</code><
                     <p>This complex LaTeX setup is now completely portable and reusable. What was once a fragile, machine-specific configuration is captured in code and builds identically anywhere.</p>
 
                     <p>This same pattern works for any specialized environment, whether it's a legacy Python version, a specific Node.js setup, or even more unconventional requirements.</p>
+
+
+<div class="screenshot-single">
+    <h3>LaTeX environment ready to use</h3>
+    <img src="./images/latex-container-demo.png" alt="LaTeX container showing successful screenplay compilation" />
+    <p><em>Complex LaTeX setup with specialized packages working immediately.</em></p>
+</div>
+
+<p>What would have taken hours of debugging package installations, TeX directory structures, and system-specific configurations is now a simple <code>docker run</code> command. The screenplay package, all dependencies, and example files are ready to use immediately.</p>
+
+<p><strong>See it in action:</strong> <a href="./images/example-screenplay.pdf" target="_blank">View the compiled screenplay PDF</a> that was generated from this containerized environment.</p>
 
                     <h2>A more common example: web development</h2>
 
@@ -734,11 +781,11 @@ esac</code></pre>
 
                     <ul>
                         <li><a href="https://tamerlan.dev/how-i-manage-my-dotfiles-using-gnu-stow/">How I manage my dotfiles using GNU Stow</a></li>
-                        <li><a href="https://www.paolomainardi.com/posts/docker-performance-macos/">HDocker on MacOS is slow and how to fix it</a></li>
+                        <li><a href="https://www.paolomainardi.com/posts/docker-performance-macos/">Docker on MacOS is slow and how to fix it</a></li>
                     </ul>
 
                     <div class="post-footer">
-                        <p><em>Have questions about Docker development environments or want to share your own setup? <a href="../index.html#contact">Get in touch</a> - I'd love to hear about your experiences with containerized development.</em></p>
+                        <p><em>Have questions about Docker development environments or want to share your own setup? <a href="../../index.html#contact">Get in touch</a> - I'd love to hear about your experiences with containerized development.</em></p>
                     </div>
                 </div>
             </article>
@@ -747,8 +794,8 @@ esac</code></pre>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    <script type="text/javascript" src="../scripts/setThemeForGivenDotClick.js"></script>
-    <script type="text/javascript" src="../scripts/setHoverOnDotEffects.js"></script>
+    <script type="text/javascript" src="../../scripts/setThemeForGivenDotClick.js"></script>
+    <script type="text/javascript" src="../../scripts/setHoverOnDotEffects.js"></script>
 </body>
 
 </html>

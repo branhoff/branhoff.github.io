@@ -675,6 +675,66 @@ h6 { font-size: 16px; }
     color: var(--blogPostMeta);
 }
 
+/* Screenshot and Image Comparison Styling */
+.screenshot-comparison {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.screenshot-comparison h3 {
+    margin-bottom: 1rem;
+    color: var(--blogPostHeaderText);
+    font-family: 'Russo One', sans-serif;
+}
+
+.comparison-images {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    margin: 1.5rem 0;
+}
+
+.comparison-images img {
+    max-width: 80%;
+    height: auto;
+    border: 1px solid var(--blogPostBorder);
+    border-radius: 6px;
+    box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
+}
+
+/* Single screenshot styling */
+.screenshot-single {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.screenshot-single img {
+    max-width: 80%;
+    height: auto;
+    border: 1px solid var(--blogPostBorder);
+    border-radius: 6px;
+    box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
+}
+
+.screenshot-comparison p,
+.screenshot-single p {
+    color: var(--blogPostText);
+    font-style: italic;
+    margin-top: 1rem;
+}
+
+/* Mobile responsive for screenshots */
+@media screen and (max-width: 768px) {
+    .comparison-images img {
+        max-width: 100%;
+    }
+    
+    .screenshot-single img {
+        max-width: 100%;
+    }
+}
+
 /* ============================================= */
 /* CONTACT FORM - Contact section styling */
 /* ============================================= */

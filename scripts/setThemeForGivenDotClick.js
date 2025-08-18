@@ -34,7 +34,7 @@ function setTheme(mode) {
     // Derive the base path from the icon path
     // "../images/NES_icon.svg" → "../"
     // "images/NES_icon.svg" → ""
-    const basePath = iconPath.includes('../') ? '../' : '';
+    const basePath = iconPath.replace(/images\/.*$/, '');
     
     // Set theme CSS
     if (mode == "light") {
