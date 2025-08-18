@@ -162,7 +162,7 @@
                         <li>A new team member joins. Day one becomes week one as they navigate undocumented dependencies, missing environment variables, and the new member must meditate on the sisyphean reality of onboarding, so succinctly intimated as "oh yeah, you also need to install..."</li>
                         <li>You feel it is time to return to that world changing project you stopped working on for some unknown reason. But you spend the first hour trying to figure out how to get it to run, dooming its already uncertain revival for a new, better project that you definitely won't abandon.</li>
                         <li>You enter negotiations with the devil himself to keep your unnervingly hot, hissing, and outdated laptop alive rather than give in to accepting that scheduled company upgrade because migrating to a new machine is an unthinkable land mine you'd end up fruitlessly navigating. Besides, you haven't used your soul once since LLMs came around.</li>
-                        <li>Your team is now evenly split between silicon and intel processor users. Therefore it is time to give your users the bad news that you are shutting down the service because consistent on-call support is officially impossible. It was a good run.</li>
+                        <li>Your team is now evenly split between silicon and intel processor users. Therefore, it is time to give your stakeholders the bad news that you are shutting down the service because consistent on-call support is officially impossible. It was a good run.</li>
                     </ol>
 
                     <p>Years of debugging convoluted local systems has given me a couple of core principles:</p>
@@ -177,53 +177,32 @@
                         <p>Here's what we'll build to solve these development environment headaches:</p>
 
                         <ol>
-                            <li>Create a personalized base image with your preferred tools, shell configurations, and dotfiles</li>
-                            <li>Build project-specific containers that extend your base image with only the tools needed for that project</li>
-                            <li>Mount your source code so changes sync instantly between container and host</li>
-                            <li>Use helper scripts to automate the build and run process for one-command setup</li>
-                            <li>Enjoy consistent environments across all projects, team members, and machines</li>
+                            <li>Create a personalized base image with your preferred tools, shell configurations, and dotfiles.</li>
+                            <li>Build project-specific containers that extend your base image with only the tools needed for that project.</li>
+                            <li>Mount your source code so changes sync instantly between container and host.</li>
+                            <li>Use helper scripts to automate the build and run process for one-command setup.</li>
+                            <li>Enjoy consistent environments across all projects, team members, and machines.</li>
                         </ol>
 
-                    <h2>What this article covers (and what it doesn't)</h2>
+                    <h2>The approach: layered docker development</h2>
 
-                    <p>This article demonstrates a specific approach to local development that tries to address the reproducibility and onboarding problems outlined above.</p>
+                    <p>Most Docker development approaches fall into two camps: project-specific containers that rebuild everything from scratch (slow, inconsistent), or heavy pre-built containers that feel generic and impersonal.</p>
 
-                    <p>In this article I hope to give you an overview of:</p>
+                    <p>This article demonstrates a third way: creating a personalized base image with your preferred tools and dotfiles, then extending it for specific projects. This gives you Docker's reproducibility without sacrificing the comfort of your customized environment; the speed of familiar tools with the portability of containers.</p>
 
-                    <ol>
-                        <li>Running your development tools inside Docker containers rather than installing them natively</li>
-                        <li>Creating a personalized development foundation that you can extend for any project</li>
-                    </ol>
-
-                    <h3>What we won't cover</h3>
-
-                    <p>This isn't a comprehensive Docker guide. I won't dive deep into performance optimization, production deployment strategies, or complex multi-service orchestration. Those are important topics, but they're beyond this article's scope.</p>
-
-                    <h3>The goal</h3>
-
-                    <p>By the end of this article, you'll have a template for creating consistent, reproducible development environments that feel as comfortable as your native setup while being significantly more portable.</p>
-
-                    <h2>Requirements of an ideal solution</h2>
-
-                    <p>We face a fundamental tension as software engineers: we want the speed and ease of developing locally on our machines while also wanting to maintain parity with production environments to minimize deployment snafus.</p>
-
-                    <p>We could write our software inside of a dedicated cloud-based development space. But we'll likely run into the headwinds of a slower connection, additional cloud fees, and a more cumbersome setup.</p>
-
-                    <p>If we manage our local development by installing all of our preferred and required tools manually, we're maximizing flexibility and speed, but it is challenging to replicate and we'll eventually hit most of the problems we outlined above.</p>
-
-                    <p>My proposal then is an approach that tries to minimize these tradeoffs and strikes a balance between convenience and parity. Namely, using docker containers on our local machines with a few additional strategies to give us that tailored local development feel we do our best work in while solving the local issues we've mostly accepted begrudgingly drudging through.</p>
+                    <p>We won't dive into performance optimization, production deployment, or complex orchestration. Those are important but beyond our scope. Instead, we'll focus on building a template for consistent, reproducible development environments that feel as comfortable as your native setup.</p>
 
                     <h2>Prerequisites</h2>
 
                         <p>You'll need:</p>
 
                         <ul>
-                            <li>Docker installed and running</li>
-                            <li>Some Docker familiarity (comfortable with <code>docker build</code> and <code>docker run</code>)</li>
-                            <li>Basic command line comfort (running commands, navigating directories)</li>
+                            <li>Docker installed and running.</li>
+                            <li>Some Docker familiarity (comfortable with <code>docker build</code> and <code>docker run</code>).</li>
+                            <li>Basic command line skills (running commands, navigating directories).</li>
                         </ul>
 
-                        <p>Helpful but not required: organized dotfiles (we'll cover dotfile setup if needed).</p>
+                        <p>Helpful but not required: organized dotfiles (we'll breifly cover dotfile setup later).</p>
                     
                     <h2>The brass tacks of Docker-based development</h2>
 
@@ -248,29 +227,10 @@
                         <li>We need to manage IDE integration complexity. Modern IDEs handle this better, but setup remains non-trivial.</li>
                     </ul>
 
-                    <h2>How we can minimize the challenges and maximize the advantages?</h2>
+                    <h2>Building your development foundation</h2>
 
-                    <p>Most Docker development approaches fall into two camps:</p>
+                    <p>The key to this approach is creating a carefully crafted base image with your preferred tools, then extending it for specific projects rather than starting fresh each time. We'll mount source code into containers while keeping it accessible to local IDEs—changes in either location sync instantly.</p>
 
-                    <ul>
-                        <li>Project-specific containers that rebuild everything from scratch (slow, inconsistent tooling)</li>
-                        <li>Heavy, pre-built dev containers that include everything but feel generic</li>
-                    </ul>
-
-                    <p>This approach tries to split the difference by creating a personalized base image with your preferred tools and configurations, then extending it for specific projects. This gives you:</p>
-
-                    <ul>
-                        <li>The speed and familiarity of your customized environment</li>
-                        <li>The reproducibility and portability of containers</li>
-                        <li>A pattern that scales across any number of projects</li>
-                    </ul>
-
-                    <p>Rather than choosing between convenience and consistency, we can combine Docker's reproducibility with local development's convenience through a few strategic design choices:</p>
-
-                    <ol>
-                        <li>Use a carefully crafted base image with your preferred tools, extending it for specific projects rather than starting fresh each time.</li>
-                        <li>Mount your source code into containers while keeping it accessible to local IDEs. Changes in either location sync instantly.</li>
-                    </ol>
 
                     <h3>A quick aside on managing dotfiles</h3>
 
@@ -458,13 +418,13 @@ WORKDIR /home/$USERNAME/workspace
 
 CMD ["/bin/zsh"]</code></pre>
 
-                    <p>Now, let's be good stewards of this beautiful Dockerfile we've created and manage the creation and setup with a bash script. This also further fulfills our principle of executable code being superior documentation than straight text in a README.</p>
+                    <p>Now, let's be good stewards of this beautiful Dockerfile we've created and manage the building aond configuring of the image with a bash script. This also further fulfills our principle of executable code being superior documentation than straight text in a README.</p>
 
                     <p>We need our script to do the following:</p>
 
                     <ol>
-                        <li>Copy our dotfiles directory into our Dockerfile's local directory</li>
-                        <li>Build our docker image so other containers can pull from this local image</li>
+                        <li>Copy our dotfiles directory into our Dockerfile's local directory.</li>
+                        <li>Build our docker image so other containers can pull from this local image.</li>
                         <li>Clean up our temporary dotfiles directory.</li>
                     </ol>
 
@@ -530,10 +490,10 @@ dev-base     latest     6351a5d71ff7   3 minutes ago   612MB</code></pre>
                     <p>I chose LaTeX screenplay writing deliberately, not because it's common, but because it illustrates the kind of specialized development environment that would normally require:</p>
 
                     <ul>
-                        <li>Manual download and installation of obscure packages</li>
-                        <li>Knowledge of TeX directory structures</li>
-                        <li>System-specific configuration that varies between macOS/Linux/WSL</li>
-                        <li>Documentation that inevitably goes stale</li>
+                        <li>Manual download and installation of obscure packages.</li>
+                        <li>Knowledge of TeX directory structures.</li>
+                        <li>System-specific configuration that varies between macOS/Linux/WSL.</li>
+                        <li>Documentation that inevitably goes stale.</li>
                     </ul>
 
                     <p>This is exactly where containerization pays significant dividends. What would normally be an arduous setup with moments of confusion and bewilderment becomes a simple matter of executing a <code>docker run</code> command.</p>
@@ -588,9 +548,9 @@ CMD ["/bin/zsh"]</code></pre>
                     <p>Notice how this Dockerfile starts with <code>FROM dev-base:latest</code>. This means:</p>
 
                     <ul>
-                        <li>No reinstalling basic tools - git, vim, zsh, and all your dotfiles are already there</li>
-                        <li>Consistent environment - every project feels familiar because they share the same foundation</li>
-                        <li>Faster builds - we're only adding LaTeX-specific dependencies, not rebuilding your entire development environment</li>
+                        <li>No reinstalling basic tools - git, vim, zsh, and all your dotfiles are already there.</li>
+                        <li>Consistent environment - every project feels familiar because they share the same foundation.</li>
+                        <li>Faster builds - we're only adding LaTeX-specific dependencies, not rebuilding your entire development environment.</li>
                     </ul>
 
                     <p>Compare this to starting from <code>debian:bookworm-slim</code> every time - you'd be reinstalling oh-my-zsh, copying dotfiles, and configuring your shell for every single project.</p>
@@ -762,26 +722,31 @@ case "$1" in
     ;;
 esac</code></pre>
 
-                    <h2>Key takeaways</h2>
+<h2>Key takeaways</h2>
 
-                    <p>This base image approach solves the core problems we identified:</p>
+<p>Remember those core principles from the beginning? This approach embodies both:</p>
 
-                    <ol>
-                        <li>Your base image is version-controlled and identical across machines</li>
-                        <li>New team members run one script and get your exact development environment</li>
-                        <li>Conflicting dependencies can't interfere with each other</li>
-                        <li>Every container feels like your personalized development machine</li>
-                    </ol>
+<ul>
+    <li><strong>"Automation is the preventative medicine against the disease that is technical debt"</strong> — Your <code>run-dev.sh</code> scripts automate the entire environment setup, preventing the accumulation of undocumented steps.</li>
+    <li><strong>"Executable documentation is among the only documentation you can consistently rely on"</strong> — Your Dockerfiles <em>are</em> your documentation. They can't go stale because they're executed every time someone builds the project.</li>
+</ul>
 
-                    <p>Build your own <code>dev-base</code> image with your preferred tools, then extend it for your next project. You'll immediately feel the difference in setup time and environment consistency.</p>
+<p>This base image approach delivers on those principles while solving our original problems:</p>
 
-                    <p>Once this pattern clicks, explore docker-compose for multi-service projects and performance optimizations for your specific platform.</p>
+<ol>
+    <li><strong>No more stale READMEs</strong> — The Dockerfile is the single source of truth for dependencies.</li>
+    <li><strong>No more "works on my machine"</strong> — Everyone runs the exact same container.</li>
+    <li><strong>No more painful onboarding</strong> — New team members run <code>./run-dev.sh</code> and they're ready.</li>
+    <li><strong>No more abandoned projects</strong> — Return to any project and it runs exactly as you left it.</li>
+    <li><strong>No more machine migration dread</strong> — Your entire environment rebuilds identically on any machine.</li>
+</ol>
 
+<p>The magic isn't just in the containers, it's in treating your development environment as code. Your Dockerfiles and scripts aren't just configuration; they're living, executable documentation that proves itself correct every time it runs.</p>
                     <h2>Additional material and references</h2>
 
                     <ul>
-                        <li><a href="https://tamerlan.dev/how-i-manage-my-dotfiles-using-gnu-stow/">How I manage my dotfiles using GNU Stow</a></li>
-                        <li><a href="https://www.paolomainardi.com/posts/docker-performance-macos/">Docker on MacOS is slow and how to fix it</a></li>
+                        <li><a href="https://tamerlan.dev/how-i-manage-my-dotfiles-using-gnu-stow/">How I manage my dotfiles using GNU Stow.</a></li>
+                        <li><a href="https://www.paolomainardi.com/posts/docker-performance-macos/">Docker on MacOS is slow and how to fix it.</a></li>
                     </ul>
 
                     <div class="post-footer">

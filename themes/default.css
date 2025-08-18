@@ -94,7 +94,7 @@ a {
 }
 
 ul {
-    list-style: none;
+    list-style: initial;
 }
 
 /* Typography Scale */
@@ -591,7 +591,7 @@ h6 { font-size: 16px; }
     border-radius: 5px;
     padding: 40px;
     margin: 30px auto;
-    max-width: 800px;
+    max-width: 1100px;
     box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
 }
 
