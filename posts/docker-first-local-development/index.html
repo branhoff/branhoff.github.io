@@ -154,15 +154,15 @@
                 <div class="post-content">
                     <h2>Problem</h2>
                     
-                    <p>A fine line separates our local machines from being the birthplace of innovation or the graveyard of well-intentioned projects. Given the high stakes, it is relatively strange that most developers and organizations don't make local development a significant priority. To make my point on the ubiquity of poor local development practices, see how well you relate to these struggles:</p>
+                    <p>A fine line separates our local machines from being the birthplace of innovation or the graveyard of well-intentioned projects. Given the high stakes, it is relatively strange that most developers and organizations don't make local development a significant priority. To make my point, see how well you relate to these struggles:</p>
 
                     <ol>
                         <li>You were diligent and documented your setup perfectly in your README... six months ago. Now half the steps are wrong, and you're debugging your own instructions on a new machine.</li>
                         <li>Your code runs flawlessly locally. Yet you'll spend half your development cycle deploying and debugging in a production like environment (or let's be honest... in production).</li>
-                        <li>A new team member joins. Day one becomes week one as they navigate undocumented dependencies, missing environment variables, and the new member must meditate on the sisyphean reality of onboarding, so succinctly intimated as "oh yeah, you also need to install..."</li>
+                        <li>A new team member joins. Day one becomes week one as they navigate undocumented dependencies, missing environment variables, and must meditate on the sisyphean reality of onboarding, intimated as "oh yeah, you also need to install..."</li>
                         <li>You feel it is time to return to that world changing project you stopped working on for some unknown reason. But you spend the first hour trying to figure out how to get it to run, dooming its already uncertain revival for a new, better project that you definitely won't abandon.</li>
-                        <li>You enter negotiations with the devil himself to keep your unnervingly hot, hissing, and outdated laptop alive rather than give in to accepting that scheduled company upgrade because migrating to a new machine is an unthinkable land mine you'd end up fruitlessly navigating. Besides, you haven't used your soul once since LLMs came around.</li>
-                        <li>Your team is now evenly split between silicon and intel processor users. Therefore, it is time to give your stakeholders the bad news that you are shutting down the service because consistent on-call support is officially impossible. It was a good run.</li>
+                        <li>You enter negotiations with the devil himself to keep your outdated laptop alive rather than give in to that scheduled company upgrade because migrating is an unthinkable land mine you'd end up fruitlessly navigating. Besides, it's not like you've been using soul once since LLMs came around.</li>
+                        <li>Your team is now evenly split between silicon and intel processor users. Therefore, it is time to give your stakeholders the bad news that you are shutting down the service because on-call support is officially impossible. It was a good run.</li>
                     </ol>
 
                     <p>Years of debugging convoluted local systems has given me a couple of core principles:</p>
@@ -212,7 +212,7 @@
 
                     <ul>
                         <li>Your local development container more closely mirrors production containers than your bespoke local development setup.</li>
-                        <li>Docker gives us much better reproducibility. We should expect commands like <code>docker build</code>, <code>docker run</code>, and <code>docker-compose up</code> to work identically across machines.</li>
+                        <li>Docker gives us much better reproducibility. We should expect commands like <code>docker build</code>, <code>docker run</code>, and <code>docker-compose up</code> to work consistently across machines.</li>
                         <li>We can achieve a self-documenting workflow since our dependencies are explicitly declared in Dockerfiles.</li>
                         <li>Multiple projects with conflicting dependencies can coexist peacefully.</li>
                         <li>We have a version controlled development environment because the whole setup is now code.</li>
@@ -234,11 +234,11 @@
 
                     <h3>A quick aside on managing dotfiles</h3>
 
-                    <p>I want to make an aside/suggestion on a prerequisite that will make our containers come pre-configured with our local environment's preferred tooling and settings is to have good dotfile management.</p>
+                    <p>I want to make a suggestion on a prerequisite that will make our containers come pre-configured with our current local environment's preferred tooling and settings.</p>
 
-                    <p>Namely, my recommendation for the tool <a href="https://www.gnu.org/software/stow/">stow</a>. I won't go into detail about how to set this up or use this tool, but, in a nutshell we want to keep our dotfiles (<code>.zshrc</code>, <code>.vim</code>, etc.) in a dotfiles directory that symlinks to our home directory.</p>
+                    <p>That reccomendation is for the tool <a href="https://www.gnu.org/software/stow/">stow</a> to assist with dotfile management. Check my referenced sources at the end of this article if you want to learn more about <code>stow</code>. All we need to understand now is that <code>stow</code> manages our dotfiles (i.e. <code>.zshrc</code>, <code>.vim</code>, etc.) in a dedicated "dotfiles" directory that symlinks to our home directory.</p>
 
-                    <p>This is because Docker can only access files in its "build context" (the directory where you run <code>docker build</code>). This is why we need to copy dotfiles into our project directory temporarily. Having a common place for our dotfiles, means that we can copy these dotfiles consistently.</p>
+                    <p>This is useful to us because Docker can only access files in its "build context" (the directory where you run <code>docker build</code>). Having a common place for our dotfiles, means that we can easily copy our dotfiles into a project's given "build context".</p>
 
                     <p>So after using stow, my home directory looks something like this:</p>
 
@@ -269,11 +269,11 @@
 ├── .zshrc -> dotfiles/.zshrc # notice the symlink
 └── .zshrc.pre-oh-my-zsh -> dotfiles/.zshrc</code></pre>
 
-                    <p>Notice that my dotfiles are in a shared directory and being symlinked back to my <code>$HOME</code>. What's nice about this is that I can easily reference and pull in my preferred configurations to my base development container because they're all in a common directory.</p>
+                    <p>Notice that my dotfiles are in a shared directory called "dotfiles" and are being symlinked back to my <code>$HOME</code>.</p>
 
                     <h3>Our <code>dev-base</code> container</h3>
 
-                    <p>Now let's talk about our <code>dev-base</code> image that will bring our local preferred tools and settings into our project's containers.</p>
+                    <p>Let's talk about our <code>dev-base</code> image that will bring our local preferred tools and settings into our project's containers.</p>
 
                     <p>First things first, we'll create a Dockerfile with a preferred image. I tend to work out of Debian, so I develop most of my projects in a Debian environment, but this base image can be set to match whatever your preferred or required environment is.</p>
 
@@ -281,7 +281,7 @@
 
 <pre><code class="language-dockerfile">FROM debian:bookworm-slim</code></pre>
 
-                    <p>Next, we want our base image to be useful by installing our preferred development tools that we don't want to have to manually replicate across every development container.</p>
+                    <p>For our base image to be useful, we need to install our preferred development tools so we don't manually have to replicate these preferences across every development container.</p>
 
                     <p>Many of these tools may already come pre-installed on your image, but it doesn't hurt to specify them for the sake of clarity. Here's an example:</p>
 
@@ -308,9 +308,9 @@
     fd-find \
     && rm -rf /var/lib/apt/lists/*</code></pre>
 
-                    <p>You can see that I am installing things like <code>tree</code>, <code>htop</code> <code>zsh</code>, and <code>vim</code> which are tools I use frequently and want to have access to in all of my development environments.</p>
+                    <p>I am installing things like <code>tree</code>, <code>htop</code> <code>zsh</code>, and <code>vim</code> which are tools I use frequently and want to have access to in all of my development environments.</p>
 
-                    <p>Next we should create a non-root user to avoid permission issues with mounted volumes:</p>
+                    <p>Next, we should create a non-root user to avoid permission issues with mounted volumes:</p>
 
 <pre><code class="language-dockerfile">ARG USERNAME=devuser
 # UID 1000 typically matches the first user on Linux systems
@@ -321,11 +321,9 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
     && echo "$USERNAME ALL=(ALL) NOPASSWD: /usr/bin/apt-get, /usr/bin/apt" > /etc/sudoers.d/$USERNAME</code></pre>
 
-                    <p>For additional installations, we can switch to our user in our base Dockerfile.</p>
+                    <p>We can switch to our user context in our Dockerfile for user-specific installations in their home directory.</p>
 
-                    <p>For example, I prefer developing with an add-on to my <code>zsh</code> terminal called <code>oh-my-zsh</code> among other popular plugins and themes for my shell. These are examples of the kind of tooling I don't want to install and reconfigure every time I set up a new Debian based project.</p>
-
-                    <p>Now my preferred fonts, themes, and tools are installed every time I use an image that draws from this base.</p>
+                    <p>For example, I prefer developing with an add-on to my <code>zsh</code> terminal called <code>oh-my-zsh</code> among other popular plugins and themes for my shell.</p>
 
 <pre><code class="language-dockerfile">USER $USERNAME
 WORKDIR /home/$USERNAME
@@ -341,7 +339,8 @@ RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.
 RUN git clone https://github.com/spaceship-prompt/spaceship-prompt.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/spaceship-prompt --depth=1 \
     && ln -s ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/spaceship-prompt/spaceship.zsh-theme ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/spaceship.zsh-theme</code></pre>
 
-                    <p>Now let's copy in our dotfiles with our preferred settings and configurations. Note, that in our Dockerfile we are making an assumption that our dotfiles directory is in the same directory with our Dockerfile. A reminder from earlier that Docker cannot copy something outside of its context space.</p>
+                    <p>With this, we can expect our workspace to have our preferred terminal setup.</p>
+                    <p>Next, let's copy in our dotfiles with our preferred settings and configurations for our tools. Note, that in this Dockerfile we are making an assumption that our "dotfiles" directory is in the same directory with our Dockerfile. A reminder from earlier that Docker cannot copy something outside of its context space.</p>
 
                     <p>In a shell script that we'll review later, we'll manage the copying and cleaning up of our dotfiles into the directory where our base Dockerfile is.</p>
 
@@ -352,8 +351,7 @@ RUN git clone https://github.com/spaceship-prompt/spaceship-prompt.git ${ZSH_CUS
 COPY --chown=$USERNAME:$USERNAME dotfiles/.zshrc /home/$USERNAME/.zshrc
 COPY --chown=$USERNAME:$USERNAME dotfiles/.vimrc /home/$USERNAME/.vimrc</code></pre>
 
-                    <p>Lastly, we just need to set our working directory and our preferred shell. Given all of the related configs, I want <code>zsh</code> as my default terminal.</p>
-
+<p>Lastly, we need to set up a workspace directory where our project will live when we mount it to this container. Since we've configured zsh with oh-my-zsh and our preferred plugins, let's also set it as our default shell.</p>
 <pre><code class="language-dockerfile">RUN mkdir -p /home/$USERNAME/workspace
 
 WORKDIR /home/$USERNAME/workspace
@@ -418,17 +416,17 @@ WORKDIR /home/$USERNAME/workspace
 
 CMD ["/bin/zsh"]</code></pre>
 
-                    <p>Now, let's be good stewards of this beautiful Dockerfile we've created and manage the building aond configuring of the image with a bash script. This also further fulfills our principle of executable code being superior documentation than straight text in a README.</p>
+                    <p>To be good stewards of this beautiful Dockerfile we've created, and to fulfill our mandate of "executable documentation", let's manage the building and configuring of the image with a bash script (rather than some instructions in a README).</p>
 
                     <p>We need our script to do the following:</p>
 
                     <ol>
-                        <li>Copy our dotfiles directory into our Dockerfile's local directory.</li>
-                        <li>Build our docker image so other containers can pull from this local image.</li>
+                        <li>Copy our "dotfiles" directory into our local directory so our Dockerfile's <code>COPY</code> command will work as intended.</li>
+                        <li>Build our docker image so other containers can later pull from this local image.</li>
                         <li>Clean up our temporary dotfiles directory.</li>
                     </ol>
 
-                    <p>I won't go through a full walkthrough, but here's my version of the script:</p>
+                    <p>Here's my version of the <code>build.sh</code> script:</p>
 
 <pre><code class="language-bash">#!/bin/bash
 
@@ -462,7 +460,7 @@ echo "✅ Built dev-base:latest and dev-base:$BUILD_DATE"
 
 echo "cleaning up temp dotfiles directory"</code></pre>
 
-                    <p>Now We have this dev-base image on our local machines, and future development containers can build on top of this.</p>
+                    <p>After running, we have this <code>dev-base</code> image on our local machines which future project specific images can extend.</p>
 
 <pre><code class="language-bash">➜ docker images
 REPOSITORY   TAG        IMAGE ID       CREATED         SIZE
@@ -487,7 +485,7 @@ dev-base     latest     6351a5d71ff7   3 minutes ago   612MB</code></pre>
 
                     <p>Here's a real-world example where Docker converts a painful setup into a clean, self-documented, and version controlled onboarding process.</p>
 
-                    <p>I chose LaTeX screenplay writing deliberately, not because it's common, but because it illustrates the kind of specialized development environment that would normally require:</p>
+                    <p>I chose LaTeX screenplay writing, not because it's common, but because it illustrates the kind of specialized development environment that would normally require:</p>
 
                     <ul>
                         <li>Manual download and installation of obscure packages.</li>
@@ -496,7 +494,7 @@ dev-base     latest     6351a5d71ff7   3 minutes ago   612MB</code></pre>
                         <li>Documentation that inevitably goes stale.</li>
                     </ul>
 
-                    <p>This is exactly where containerization pays significant dividends. What would normally be an arduous setup with moments of confusion and bewilderment becomes a simple matter of executing a <code>docker run</code> command.</p>
+                    <p>This is where containerization pays significant dividends. What would normally be an arduous setup becomes a simple matter of executing a <code>docker run</code> command.</p>
 
 <pre><code class="language-dockerfile">FROM dev-base:latest
 
@@ -549,13 +547,11 @@ CMD ["/bin/zsh"]</code></pre>
 
                     <ul>
                         <li>No reinstalling basic tools - git, vim, zsh, and all your dotfiles are already there.</li>
-                        <li>Consistent environment - every project feels familiar because they share the same foundation.</li>
-                        <li>Faster builds - we're only adding LaTeX-specific dependencies, not rebuilding your entire development environment.</li>
+                        <li>We hav a consistent environment where every project feels familiar because they share the same foundation.</li>
+                        <li>Because we're only adding LaTeX-specific dependencies and not rebuilding your entire development environment, we should have a faster build.</li>
                     </ul>
 
-                    <p>Compare this to starting from <code>debian:bookworm-slim</code> every time - you'd be reinstalling oh-my-zsh, copying dotfiles, and configuring your shell for every single project.</p>
-
-                    <p>For improved "executable documentation", We can then add a basic <code>run-dev.sh</code> shell script that will build and run our project for us.</p>
+                    <p>For improved "executable documentation", we can then add a simple <code>run-dev.sh</code> script that will build and run our project for us.</p>
 
 <pre><code class="language-bash">#!/bin/bash
 
@@ -563,9 +559,11 @@ CMD ["/bin/zsh"]</code></pre>
 docker build -t screenplay-latex .
 
 # Run container with interactive terminal and volume mounting
+# Notice that we're mounting to the workspace directory we set 
+# up in the base image
 docker run -it --rm -v "$(pwd):/home/devuser/workspace" screenplay-latex</code></pre>
 
-                    <p>This complex LaTeX setup is now completely portable and reusable. What was once a fragile, machine-specific configuration is captured in code and builds identically anywhere.</p>
+                    <p>This complex LaTeX setup is now portable and reusable. What was once a fragile, machine-specific configuration is captured in code and builds consistently anywhere.</p>
 
                     <p>This same pattern works for any specialized environment, whether it's a legacy Python version, a specific Node.js setup, or even more unconventional requirements.</p>
 
@@ -576,9 +574,7 @@ docker run -it --rm -v "$(pwd):/home/devuser/workspace" screenplay-latex</code><
     <p><em>Complex LaTeX setup with specialized packages working immediately.</em></p>
 </div>
 
-<p>What would have taken hours of debugging package installations, TeX directory structures, and system-specific configurations is now a simple <code>docker run</code> command. The screenplay package, all dependencies, and example files are ready to use immediately.</p>
-
-<p><strong>See it in action:</strong> <a href="./images/example-screenplay.pdf" target="_blank">View the compiled screenplay PDF</a> that was generated from this containerized environment.</p>
+<p><a href="./images/example-screenplay.pdf" target="_blank">View the compiled screenplay PDF</a> that was generated from this containerized environment.</p>
 
                     <h2>A more common example: web development</h2>
 
@@ -724,7 +720,7 @@ esac</code></pre>
 
 <h2>Key takeaways</h2>
 
-<p>Remember those core principles from the beginning? This approach embodies both:</p>
+<p>Remember those core principles from the beginning?</p>
 
 <ul>
     <li><strong>"Automation is the preventative medicine against the disease that is technical debt"</strong> — Your <code>run-dev.sh</code> scripts automate the entire environment setup, preventing the accumulation of undocumented steps.</li>
@@ -741,7 +737,7 @@ esac</code></pre>
     <li><strong>No more machine migration dread</strong> — Your entire environment rebuilds identically on any machine.</li>
 </ol>
 
-<p>The magic isn't just in the containers, it's in treating your development environment as code. Your Dockerfiles and scripts aren't just configuration; they're living, executable documentation that proves itself correct every time it runs.</p>
+<p>The magic isn't just in the containers, it's in treating your development environment as code. Your Dockerfiles and scripts aren't just configurations; they're living, executable documentation that proves itself correct every time it runs.</p>
                     <h2>Additional material and references</h2>
 
                     <ul>
